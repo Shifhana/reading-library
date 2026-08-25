@@ -43,3 +43,30 @@
   font-size: 1.5rem;
   font-weight: 600;
 }
+
+.reading-highlight {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #dedbd4;
+}
+
+.reading-highlight h2 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.reading-highlight-book {
+  margin-top: 0.75rem;
+}
+
+.reading-highlight-book h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.reading-highlight-book p,
+.reading-highlight-empty {
+  margin: 0.25rem 0 0;
+  color: #666;
+}
