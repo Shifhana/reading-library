@@ -1,6 +1,13 @@
 import './App.css'
+import { books } from './data/books'
 
 function App() {
+  const totalBooks = books.length
+  const readBooks = books.filter((book) => book.status === 'Read').length
+
+  // "Currently reading" counts as unread because it has not been completed yet.
+  const unreadBooks = books.filter((book) => book.status !== 'Read').length
+
   return (
     <div className="site-shell">
       <header className="site-header">
@@ -9,7 +16,25 @@ function App() {
         </div>
       </header>
 
-      <main className="site-container site-content"></main>
+      <main className="site-container site-content">
+        <section aria-labelledby="library-statistics-heading">
+          <h2 id="library-statistics-heading">Library statistics</h2>
+          <dl className="library-statistics">
+            <div>
+              <dt>Total books</dt>
+              <dd>{totalBooks}</dd>
+            </div>
+            <div>
+              <dt>Read</dt>
+              <dd>{readBooks}</dd>
+            </div>
+            <div>
+              <dt>Unread</dt>
+              <dd>{unreadBooks}</dd>
+            </div>
+          </dl>
+        </section>
+      </main>
     </div>
   )
 }
