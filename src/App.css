@@ -21,3 +21,25 @@
 .site-content {
   padding-block: 2rem;
 }
+
+.library-statistics {
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+}
+
+.library-statistics div {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.25rem;
+}
+
+.library-statistics dt {
+  color: #666;
+}
+
+.library-statistics dd {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
