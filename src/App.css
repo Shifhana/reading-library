@@ -71,14 +71,20 @@
   color: #666;
 }
 
-.book-card-sample {
+.library {
   margin-top: 2.5rem;
   padding-top: 1.5rem;
   border-top: 1px solid #dedbd4;
 }
 
-.book-card-sample > h2 {
+.library > h2 {
   margin: 0 0 1rem;
   font-size: 1rem;
   font-weight: 600;
+}
+
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+  gap: 2rem 1.5rem;
 }
