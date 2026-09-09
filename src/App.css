@@ -83,6 +83,33 @@
   font-weight: 600;
 }
 
+.library-filters {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.library-filter {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #aaa69d;
+  border-radius: 0.25rem;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.library-filter[aria-pressed='true'] {
+  border-color: #4f6255;
+  color: #fff;
+  background: #4f6255;
+}
+
+.library-filter:focus-visible {
+  outline: 3px solid #4f6255;
+  outline-offset: 2px;
+}
+
 .library-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
