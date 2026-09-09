@@ -1,8 +1,14 @@
+import { useState } from 'react'
 import './App.css'
 import { BookCard } from './components/BookCard'
 import { books } from './data/books'
 
+type LibraryFilter = 'All' | 'Read' | 'Unread'
+
+const libraryFilters: LibraryFilter[] = ['All', 'Read', 'Unread']
+
 function App() {
+  const [selectedFilter, setSelectedFilter] = useState<LibraryFilter>('All')
   const totalBooks = books.length
   const readBooks = books.filter((book) => book.status === 'Read').length
 
@@ -18,6 +24,17 @@ function App() {
     : upNextBook
       ? 'Up next'
       : 'Currently reading / Up next'
+  const filteredBooks = books.filter((book) => {
+    if (selectedFilter === 'All') {
+      return true
+    }
+
+    if (selectedFilter === 'Read') {
+      return book.status === 'Read'
+    }
+
+    return book.status !== 'Read'
+  })
 
   return (
     <div className="site-shell">
@@ -68,8 +85,25 @@ function App() {
           aria-labelledby="library-heading"
         >
           <h2 id="library-heading">Library</h2>
+          <div
+            className="library-filters"
+            role="group"
+            aria-label="Filter library"
+          >
+            {libraryFilters.map((filter) => (
+              <button
+                key={filter}
+                type="button"
+                className="library-filter"
+                aria-pressed={selectedFilter === filter}
+                onClick={() => setSelectedFilter(filter)}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
           <div className="library-grid">
-            {books.map((book) => (
+            {filteredBooks.map((book) => (
               <BookCard
                 key={`${book.title}-${book.author}`}
                 book={book}
