@@ -1,4 +1,5 @@
 import './App.css'
+import { BookCard } from './components/BookCard'
 import { books } from './data/books'
 
 function App() {
@@ -60,6 +61,17 @@ function App() {
               No book is currently selected.
             </p>
           )}
+        </section>
+
+        <section
+          className="book-card-sample"
+          aria-labelledby="book-card-sample-heading"
+        >
+          <h2 id="book-card-sample-heading">Book card sample</h2>
+          <BookCard
+            book={books[0]}
+            href="#book-card-sample-heading"
+          />
         </section>
       </main>
     </div>
