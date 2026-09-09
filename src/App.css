@@ -70,3 +70,15 @@
   margin: 0.25rem 0 0;
   color: #666;
 }
+
+.book-card-sample {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #dedbd4;
+}
+
+.book-card-sample > h2 {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
