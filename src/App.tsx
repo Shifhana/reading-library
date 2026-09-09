@@ -64,14 +64,19 @@ function App() {
         </section>
 
         <section
-          className="book-card-sample"
-          aria-labelledby="book-card-sample-heading"
+          className="library"
+          aria-labelledby="library-heading"
         >
-          <h2 id="book-card-sample-heading">Book card sample</h2>
-          <BookCard
-            book={books[0]}
-            href="#book-card-sample-heading"
-          />
+          <h2 id="library-heading">Library</h2>
+          <div className="library-grid">
+            {books.map((book) => (
+              <BookCard
+                key={`${book.title}-${book.author}`}
+                book={book}
+                href="#library-heading"
+              />
+            ))}
+          </div>
         </section>
       </main>
     </div>
