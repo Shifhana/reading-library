@@ -31,7 +31,7 @@ export function BookDetailPage({
         </div>
       </header>
 
-      <main className="site-container book-detail">
+      <main className="site-container book-detail" tabIndex={-1}>
         <a
           className="book-detail-back"
           href={backHref}
@@ -54,7 +54,7 @@ export function BookDetailPage({
               ) : (
                 <img
                   src={book.coverImage}
-                  alt={`Cover of ${book.title}`}
+                  alt={`Book cover for ${book.title} by ${book.author}`}
                   onError={() => setFailedCover(book.coverImage)}
                 />
               )}

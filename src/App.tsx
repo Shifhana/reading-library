@@ -1,4 +1,4 @@
-import { useEffect, useState, type MouseEvent } from 'react'
+import { useEffect, useRef, useState, type MouseEvent } from 'react'
 import './App.css'
 import { BookCard } from './components/BookCard'
 import { BookDetailPage } from './components/BookDetailPage'
@@ -11,6 +11,7 @@ const libraryFilters: LibraryFilter[] = ['All', 'Read', 'Unread']
 function App() {
   const [selectedFilter, setSelectedFilter] = useState<LibraryFilter>('All')
   const [pathname, setPathname] = useState(window.location.pathname)
+  const previousPathname = useRef(pathname)
 
   useEffect(() => {
     const handlePopState = () => setPathname(window.location.pathname)
@@ -18,6 +19,29 @@ function App() {
     window.addEventListener('popstate', handlePopState)
     return () => window.removeEventListener('popstate', handlePopState)
   }, [])
+
+  useEffect(() => {
+    const routeBookSlug = pathname.match(/^\/books\/([^/]+)\/?$/)?.[1]
+    const routeBook = books.find((book) => book.slug === routeBookSlug)
+
+    document.title = routeBook
+      ? `${routeBook.title} | My Library`
+      : pathname === '/'
+        ? 'My Library'
+        : 'Book not found | My Library'
+
+    if (previousPathname.current === pathname) {
+      return
+    }
+
+    previousPathname.current = pathname
+
+    const focusFrame = window.requestAnimationFrame(() => {
+      document.querySelector<HTMLElement>('main')?.focus()
+    })
+
+    return () => window.cancelAnimationFrame(focusFrame)
+  }, [pathname])
 
   const handleNavigation = (event: MouseEvent<HTMLAnchorElement>) => {
     if (
@@ -73,7 +97,7 @@ function App() {
           </div>
         </header>
 
-        <main className="site-container route-message">
+        <main className="site-container route-message" tabIndex={-1}>
           <h1>Book not found</h1>
           <p>This book is not in the library.</p>
           <a href="/" onClick={handleNavigation}>
@@ -119,7 +143,7 @@ function App() {
         </div>
       </header>
 
-      <main className="site-container site-content">
+      <main className="site-container site-content" tabIndex={-1}>
         <section aria-labelledby="library-statistics-heading">
           <h2 id="library-statistics-heading">Library statistics</h2>
           <dl className="library-statistics">
@@ -166,6 +190,7 @@ function App() {
             className="library-filters"
             role="group"
             aria-label="Filter library"
+            aria-controls="library-grid"
           >
             {libraryFilters.map((filter) => (
               <button
@@ -179,7 +204,7 @@ function App() {
               </button>
             ))}
           </div>
-          <div className="library-grid">
+          <div className="library-grid" id="library-grid">
             {filteredBooks.map((book) => (
               <BookCard
                 key={book.slug}
