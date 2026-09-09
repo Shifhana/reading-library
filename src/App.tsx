@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import { BookCard } from './components/BookCard'
+import { BookDetailPage } from './components/BookDetailPage'
 import { books } from './data/books'
 
 type LibraryFilter = 'All' | 'Read' | 'Unread'
@@ -9,6 +10,25 @@ const libraryFilters: LibraryFilter[] = ['All', 'Read', 'Unread']
 
 function App() {
   const [selectedFilter, setSelectedFilter] = useState<LibraryFilter>('All')
+  const previewStatus = new URLSearchParams(window.location.search).get(
+    'preview',
+  )
+  const previewBook =
+    previewStatus === 'read'
+      ? books.find((book) => book.status === 'Read')
+      : previewStatus === 'unread'
+        ? books.find((book) => book.status === 'Unread')
+        : undefined
+
+  if (previewBook) {
+    return (
+      <BookDetailPage
+        book={previewBook}
+        backHref={window.location.pathname}
+      />
+    )
+  }
+
   const totalBooks = books.length
   const readBooks = books.filter((book) => book.status === 'Read').length
 
@@ -84,7 +104,12 @@ function App() {
           className="library"
           aria-labelledby="library-heading"
         >
-          <h2 id="library-heading">Library</h2>
+          <div className="library-heading-row">
+            <h2 id="library-heading">Library</h2>
+            <a className="detail-preview-link" href="?preview=read">
+              Preview book detail
+            </a>
+          </div>
           <div
             className="library-filters"
             role="group"
