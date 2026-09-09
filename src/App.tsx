@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState, type MouseEvent } from 'react'
 import './App.css'
 import { BookCard } from './components/BookCard'
 import { BookDetailPage } from './components/BookDetailPage'
@@ -10,22 +10,77 @@ const libraryFilters: LibraryFilter[] = ['All', 'Read', 'Unread']
 
 function App() {
   const [selectedFilter, setSelectedFilter] = useState<LibraryFilter>('All')
-  const previewStatus = new URLSearchParams(window.location.search).get(
-    'preview',
-  )
-  const previewBook =
-    previewStatus === 'read'
-      ? books.find((book) => book.status === 'Read')
-      : previewStatus === 'unread'
-        ? books.find((book) => book.status === 'Unread')
-        : undefined
+  const [pathname, setPathname] = useState(window.location.pathname)
 
-  if (previewBook) {
+  useEffect(() => {
+    const handlePopState = () => setPathname(window.location.pathname)
+
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [])
+
+  const handleNavigation = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (
+      event.defaultPrevented ||
+      event.button !== 0 ||
+      event.metaKey ||
+      event.ctrlKey ||
+      event.shiftKey ||
+      event.altKey
+    ) {
+      return
+    }
+
+    const destination = new URL(event.currentTarget.href)
+
+    if (destination.origin !== window.location.origin) {
+      return
+    }
+
+    event.preventDefault()
+    window.history.pushState(null, '', destination)
+    setPathname(destination.pathname)
+    window.scrollTo({ top: 0 })
+  }
+
+  const bookRouteMatch = pathname.match(/^\/books\/([^/]+)\/?$/)
+  const selectedBook = bookRouteMatch
+    ? books.find((book) => book.slug === bookRouteMatch[1])
+    : undefined
+
+  if (selectedBook) {
     return (
       <BookDetailPage
-        book={previewBook}
-        backHref={window.location.pathname}
+        book={selectedBook}
+        backHref="/"
+        onNavigate={handleNavigation}
       />
+    )
+  }
+
+  if (pathname !== '/') {
+    return (
+      <div className="site-shell">
+        <header className="site-header">
+          <div className="site-container">
+            <a
+              className="site-title site-title-link"
+              href="/"
+              onClick={handleNavigation}
+            >
+              My Library
+            </a>
+          </div>
+        </header>
+
+        <main className="site-container route-message">
+          <h1>Book not found</h1>
+          <p>This book is not in the library.</p>
+          <a href="/" onClick={handleNavigation}>
+            Back to library
+          </a>
+        </main>
+      </div>
     )
   }
 
@@ -106,9 +161,6 @@ function App() {
         >
           <div className="library-heading-row">
             <h2 id="library-heading">Library</h2>
-            <a className="detail-preview-link" href="?preview=read">
-              Preview book detail
-            </a>
           </div>
           <div
             className="library-filters"
@@ -130,9 +182,10 @@ function App() {
           <div className="library-grid">
             {filteredBooks.map((book) => (
               <BookCard
-                key={`${book.title}-${book.author}`}
+                key={book.slug}
                 book={book}
-                href="#library-heading"
+                href={`/books/${book.slug}`}
+                onNavigate={handleNavigation}
               />
             ))}
           </div>

@@ -1,6 +1,7 @@
 export type ReadingStatus = 'Unread' | 'Currently reading' | 'Read'
 
 export interface Book {
+  slug: string
   title: string
   author: string
   coverImage: string
@@ -13,6 +14,7 @@ export interface Book {
 
 export const books: Book[] = [
   {
+    slug: 'show-your-work',
     title: 'Show Your Work!',
     author: 'Austin Kleon',
     coverImage: '/covers/show-your-work-placeholder.jpg',
@@ -24,12 +26,14 @@ export const books: Book[] = [
       'Document the work as it develops, explain what influenced it, and share consistently without turning every update into self-promotion.',
   },
   {
+    slug: 'the-creative-act',
     title: 'The Creative Act',
     author: 'Rick Rubin',
     coverImage: '/covers/the-creative-act-placeholder.jpg',
     status: 'Currently reading',
   },
   {
+    slug: 'steal-like-an-artist',
     title: 'Steal Like an Artist',
     author: 'Austin Kleon',
     coverImage: '/covers/steal-like-an-artist-placeholder.jpg',

@@ -1,13 +1,18 @@
-import { useState } from 'react'
+import { useState, type MouseEvent } from 'react'
 import type { Book } from '../data/books'
 import './BookDetailPage.css'
 
 interface BookDetailPageProps {
   book: Book
   backHref: string
+  onNavigate: (event: MouseEvent<HTMLAnchorElement>) => void
 }
 
-export function BookDetailPage({ book, backHref }: BookDetailPageProps) {
+export function BookDetailPage({
+  book,
+  backHref,
+  onNavigate,
+}: BookDetailPageProps) {
   const [failedCover, setFailedCover] = useState<string | null>(null)
   const coverIsUnavailable =
     !book.coverImage || failedCover === book.coverImage
@@ -16,14 +21,22 @@ export function BookDetailPage({ book, backHref }: BookDetailPageProps) {
     <div className="site-shell">
       <header className="site-header">
         <div className="site-container">
-          <a className="site-title site-title-link" href={backHref}>
+          <a
+            className="site-title site-title-link"
+            href={backHref}
+            onClick={onNavigate}
+          >
             My Library
           </a>
         </div>
       </header>
 
       <main className="site-container book-detail">
-        <a className="book-detail-back" href={backHref}>
+        <a
+          className="book-detail-back"
+          href={backHref}
+          onClick={onNavigate}
+        >
           <span aria-hidden="true">&larr;</span> Back to library
         </a>
 

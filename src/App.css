@@ -92,18 +92,6 @@
   font-weight: 600;
 }
 
-.detail-preview-link {
-  color: #4f6255;
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-underline-offset: 0.2em;
-}
-
-.detail-preview-link:focus-visible {
-  outline: 3px solid #4f6255;
-  outline-offset: 3px;
-}
-
 .library-filters {
   display: flex;
   gap: 0.5rem;
@@ -135,4 +123,16 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
   gap: 2rem 1.5rem;
+}
+
+.route-message {
+  padding-block: 3rem;
+}
+
+.route-message h1 {
+  margin: 0;
+}
+
+.route-message p {
+  margin: 1rem 0;
 }
