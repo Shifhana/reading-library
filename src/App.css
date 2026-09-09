@@ -105,6 +105,7 @@
   font-weight: 400;
   line-height: 1.15;
   letter-spacing: -0.025em;
+  overflow-wrap: anywhere;
 }
 
 .reading-highlight-book p,
@@ -112,6 +113,7 @@
   margin: 0.45rem 0 0;
   color: var(--color-muted);
   font-size: 0.9375rem;
+  overflow-wrap: anywhere;
 }
 
 .library {
@@ -139,7 +141,7 @@
 .library-filter {
   min-height: 2.5rem;
   padding: 0.45rem 0.9rem;
-  border: 1px solid #aaa499;
+  border: 1px solid #827d73;
   border-radius: 999px;
   color: var(--color-text);
   background: transparent;
@@ -179,7 +181,7 @@
     minmax(min(100%, 10.5rem), 14rem)
   );
   gap: clamp(2.75rem, 6vw, 4.5rem) clamp(1.5rem, 4vw, 3rem);
-  justify-content: space-between;
+  justify-content: start;
 }
 
 .route-message {
@@ -217,8 +219,20 @@
   .reading-highlight {
     grid-template-columns: 1fr;
   }
+}
 
-  .library-grid {
-    justify-content: start;
+@media (max-width: 24rem) {
+  .library-statistics {
+    grid-template-columns: 1fr;
+  }
+
+  .library-statistics div {
+    padding-inline: 0;
+  }
+
+  .library-statistics div + div {
+    padding-left: 0;
+    border-top: 1px solid var(--color-rule);
+    border-left: 0;
   }
 }

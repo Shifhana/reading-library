@@ -15,7 +15,12 @@ export function BookCard({ book, href, onNavigate }: BookCardProps) {
 
   return (
     <article className="book-card">
-      <a className="book-card-link" href={href} onClick={onNavigate}>
+      <a
+        className="book-card-link"
+        href={href}
+        aria-label={`View ${book.title} by ${book.author}`}
+        onClick={onNavigate}
+      >
         <div className="book-card-cover">
           {coverIsUnavailable ? (
             <div
@@ -28,7 +33,7 @@ export function BookCard({ book, href, onNavigate }: BookCardProps) {
           ) : (
             <img
               src={book.coverImage}
-              alt={`Cover of ${book.title}`}
+              alt={`Book cover for ${book.title} by ${book.author}`}
               onError={() => setFailedCover(book.coverImage)}
             />
           )}
