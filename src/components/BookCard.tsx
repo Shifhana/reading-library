@@ -1,20 +1,21 @@
-import { useState } from 'react'
+import { useState, type MouseEvent } from 'react'
 import type { Book } from '../data/books'
 import './BookCard.css'
 
 interface BookCardProps {
   book: Book
   href: string
+  onNavigate: (event: MouseEvent<HTMLAnchorElement>) => void
 }
 
-export function BookCard({ book, href }: BookCardProps) {
+export function BookCard({ book, href, onNavigate }: BookCardProps) {
   const [failedCover, setFailedCover] = useState<string | null>(null)
   const coverIsUnavailable =
     !book.coverImage || failedCover === book.coverImage
 
   return (
     <article className="book-card">
-      <a className="book-card-link" href={href}>
+      <a className="book-card-link" href={href} onClick={onNavigate}>
         <div className="book-card-cover">
           {coverIsUnavailable ? (
             <div
