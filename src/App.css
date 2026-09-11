@@ -3,51 +3,51 @@
 }
 
 .site-container {
-  width: min(100% - 3rem, 72rem);
+  width: min(100% - clamp(3rem, 8vw, 8rem), 78rem);
   margin-inline: auto;
 }
 
 .site-header {
-  padding-block: clamp(1.5rem, 3vw, 2.25rem);
+  padding-block: clamp(1.75rem, 3vw, 2.5rem);
   border-bottom: 1px solid var(--color-rule);
 }
 
 .site-title {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: clamp(1.5rem, 3vw, 1.875rem);
+  font-size: clamp(1.625rem, 3vw, 2rem);
   font-weight: 400;
-  line-height: 1;
-  letter-spacing: -0.025em;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
 }
 
 .site-content {
-  padding-block: clamp(3rem, 7vw, 5.5rem) clamp(4rem, 9vw, 7rem);
+  padding-block: clamp(4rem, 8vw, 7rem) clamp(5rem, 11vw, 9rem);
 }
 
 .site-content section > h2,
 .library-heading-row h2 {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  font-size: clamp(2rem, 4.5vw, 2.75rem);
   font-weight: 400;
-  line-height: 1.15;
-  letter-spacing: -0.025em;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
 }
 
 .library-statistics {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  max-width: 40rem;
-  margin: 1.5rem 0 0;
+  max-width: 45rem;
+  margin: clamp(2rem, 4vw, 3rem) 0 0;
   border-block: 1px solid var(--color-rule);
 }
 
 .library-statistics div {
   display: flex;
   flex-direction: column-reverse;
-  gap: 0.35rem;
-  padding: 1.25rem clamp(1rem, 3vw, 2rem) 1.35rem 0;
+  gap: 0.5rem;
+  padding: 1.5rem clamp(1.25rem, 3vw, 2.25rem) 1.625rem 0;
 }
 
 .library-statistics div + div {
@@ -57,16 +57,16 @@
 
 .library-statistics dt {
   color: var(--color-muted);
-  font-size: 0.75rem;
-  font-weight: 650;
-  letter-spacing: 0.08em;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
   text-transform: uppercase;
 }
 
 .library-statistics dd {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: clamp(2rem, 5vw, 2.75rem);
+  font-size: clamp(2.25rem, 5vw, 3.125rem);
   font-variant-numeric: lining-nums tabular-nums;
   font-weight: 400;
   line-height: 1;
@@ -75,11 +75,12 @@
 .reading-highlight {
   display: grid;
   grid-template-columns: minmax(8rem, 0.7fr) minmax(0, 2fr);
-  gap: 1rem clamp(2rem, 6vw, 5rem);
+  gap: 1.25rem clamp(2.5rem, 7vw, 6rem);
   align-items: center;
-  margin-top: clamp(3.5rem, 7vw, 5.5rem);
-  padding: clamp(1.5rem, 4vw, 2.5rem);
-  border-left: 3px solid var(--color-accent);
+  margin-top: clamp(4.5rem, 9vw, 7.5rem);
+  padding: clamp(2rem, 5vw, 3.5rem);
+  border-block: 1px solid var(--color-rule);
+  border-left: 2px solid var(--color-accent);
   background: var(--color-surface);
 }
 
@@ -87,10 +88,10 @@
   margin: 0;
   font-family: inherit;
   color: var(--color-accent-dark);
-  font-size: 0.75rem;
+  font-size: 0.6875rem;
   font-weight: 700;
   line-height: 1.4;
-  letter-spacing: 0.09em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
@@ -101,23 +102,23 @@
 .reading-highlight-book h3 {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-size: clamp(2rem, 4.5vw, 3rem);
   font-weight: 400;
   line-height: 1.15;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.035em;
   overflow-wrap: anywhere;
 }
 
 .reading-highlight-book p,
 .reading-highlight-empty {
-  margin: 0.45rem 0 0;
+  margin: 0.625rem 0 0;
   color: var(--color-muted);
   font-size: 0.9375rem;
   overflow-wrap: anywhere;
 }
 
 .library {
-  margin-top: clamp(4rem, 9vw, 7rem);
+  margin-top: clamp(5rem, 11vw, 9rem);
 }
 
 .library-heading-row {
@@ -126,28 +127,29 @@
   gap: 0.75rem 1.5rem;
   align-items: baseline;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
 .library-filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: clamp(2rem, 5vw, 3rem);
-  padding-bottom: 1.25rem;
+  gap: 0.625rem;
+  margin-bottom: clamp(2.5rem, 6vw, 4rem);
+  padding-bottom: 1.75rem;
   border-bottom: 1px solid var(--color-rule);
 }
 
 .library-filter {
-  min-height: 2.5rem;
-  padding: 0.45rem 0.9rem;
-  border: 1px solid #827d73;
-  border-radius: 999px;
+  min-height: 2.75rem;
+  padding: 0.55rem 1.125rem;
+  border: 1px solid var(--color-rule-strong);
+  border-radius: 0.125rem;
   color: var(--color-text);
   background: transparent;
   font: inherit;
-  font-size: 0.875rem;
-  font-weight: 600;
+  font-size: 0.8125rem;
+  font-weight: 650;
+  letter-spacing: 0.025em;
   cursor: pointer;
   transition:
     color 140ms ease,
@@ -165,7 +167,7 @@
   .library-filter:not([aria-pressed='true']):hover {
     border-color: var(--color-accent);
     color: var(--color-accent-dark);
-    background: #f0ece3;
+    background: var(--color-surface-hover);
   }
 }
 
@@ -180,18 +182,18 @@
     auto-fill,
     minmax(min(100%, 10.5rem), 14rem)
   );
-  gap: clamp(2.75rem, 6vw, 4.5rem) clamp(1.5rem, 4vw, 3rem);
+  gap: clamp(3rem, 7vw, 5rem) clamp(1.75rem, 4vw, 3.5rem);
   justify-content: start;
 }
 
 .route-message {
-  padding-block: clamp(3rem, 8vw, 6rem);
+  padding-block: clamp(4rem, 9vw, 7rem);
 }
 
 .route-message h1 {
   margin: 0;
   font-family: var(--font-serif);
-  font-size: clamp(2rem, 6vw, 3.5rem);
+  font-size: clamp(2.5rem, 6vw, 4.25rem);
   font-weight: 400;
 }
 
@@ -213,7 +215,7 @@
 
 @media (max-width: 40rem) {
   .site-container {
-    width: min(100% - 2rem, 72rem);
+    width: min(100% - 2rem, 78rem);
   }
 
   .reading-highlight {
