@@ -1,6 +1,8 @@
 import './RoomShell.css'
 
 type Point3D = readonly [x: number, y: number, z: number]
+type Face = { vertices: Point3D[]; material: string; layer: number }
+type ShelfId = 'rear' | 'middle' | 'foreground'
 
 // Metres in a shared room plan. The camera is at (0, 1.65, 0), close to
 // the glazed side of the room, looking slightly right across its long axis.
@@ -54,7 +56,7 @@ const rightBays = [
 ]
 
 type DisplayShelf = {
-  id: string
+  id: ShelfId
   x: number
   z: number
   width: number
@@ -71,6 +73,102 @@ const displayShelves: DisplayShelf[] = [
   { id: 'foreground', x: 2.3, z: 2.95, width: 2.45, height: 0.72, depth: 0.86, angle: -0.16 },
 ]
 
+type DisplayBook = {
+  id: string
+  width: number
+  height: number
+  depth: number
+  gapAfter: number
+  tone: 'chalk' | 'sand' | 'clay' | 'sage' | 'stone'
+}
+
+// Oversized art/folio proportions in metres. Stable display IDs keep each book
+// addressable without inventing library records or changing the product data.
+const shelfBooks: Record<ShelfId, DisplayBook[]> = {
+  middle: [
+    { id: 'main-01', width: 0.32, height: 0.47, depth: 0.042, gapAfter: 0.09, tone: 'sand' },
+    { id: 'main-02', width: 0.36, height: 0.52, depth: 0.052, gapAfter: 0.18, tone: 'stone' },
+    { id: 'main-03', width: 0.30, height: 0.45, depth: 0.035, gapAfter: 0.08, tone: 'chalk' },
+    { id: 'main-04', width: 0.34, height: 0.50, depth: 0.046, gapAfter: 0.12, tone: 'clay' },
+    { id: 'main-05', width: 0.37, height: 0.53, depth: 0.055, gapAfter: 0.20, tone: 'sand' },
+    { id: 'main-06', width: 0.31, height: 0.46, depth: 0.038, gapAfter: 0.09, tone: 'sage' },
+    { id: 'main-07', width: 0.34, height: 0.49, depth: 0.048, gapAfter: 0.11, tone: 'chalk' },
+    { id: 'main-08', width: 0.32, height: 0.48, depth: 0.043, gapAfter: 0, tone: 'stone' },
+  ],
+  rear: [
+    { id: 'rear-01', width: 0.32, height: 0.46, depth: 0.04, gapAfter: 0.14, tone: 'sand' },
+    { id: 'rear-02', width: 0.35, height: 0.49, depth: 0.049, gapAfter: 0.28, tone: 'chalk' },
+    { id: 'rear-03', width: 0.30, height: 0.44, depth: 0.036, gapAfter: 0.12, tone: 'sage' },
+    { id: 'rear-04', width: 0.33, height: 0.47, depth: 0.044, gapAfter: 0, tone: 'sand' },
+  ],
+  foreground: [
+    { id: 'front-01', width: 0.30, height: 0.44, depth: 0.041, gapAfter: 0.10, tone: 'stone' },
+    { id: 'front-02', width: 0.34, height: 0.49, depth: 0.052, gapAfter: 0.16, tone: 'chalk' },
+    { id: 'front-03', width: 0.29, height: 0.43, depth: 0.035, gapAfter: 0.08, tone: 'sand' },
+    { id: 'front-04', width: 0.35, height: 0.50, depth: 0.055, gapAfter: 0.11, tone: 'sage' },
+    { id: 'front-05', width: 0.31, height: 0.46, depth: 0.044, gapAfter: 0, tone: 'clay' },
+  ],
+}
+
+function visibleFaces(faces: Face[]) {
+  const cameraDepth = (vertices: Point3D[]) => vertices.reduce((sum, [px, , pz]) =>
+    sum + px * Math.sin(camera.yaw) + pz * Math.cos(camera.yaw), 0) / vertices.length
+  return faces.filter(({ vertices: [a, b, c] }) => {
+    const ab = b.map((value, i) => value - a[i])
+    const ac = c.map((value, i) => value - a[i])
+    const normal = [ab[1] * ac[2] - ab[2] * ac[1], ab[2] * ac[0] - ab[0] * ac[2], ab[0] * ac[1] - ab[1] * ac[0]]
+    return normal[0] * -a[0] + normal[1] * (camera.eyeHeight - a[1]) + normal[2] * -a[2] > 0
+  }).sort((a, b) => a.layer - b.layer || cameraDepth(b.vertices) - cameraDepth(a.vertices))
+}
+
+function ShelfBook({ book, left, lean, baseHeight, toRoom }: {
+  book: DisplayBook
+  left: number
+  lean: number
+  baseHeight: number
+  toRoom: (point: Point3D) => Point3D
+}) {
+  const faces: Face[] = []
+  const up = Math.cos(lean)
+  const back = Math.sin(lean)
+  // h runs up the sloped back; d runs outward, perpendicular to the cover.
+  // The back cover's lower edge touches the deck at the slope's foot (z=0.16).
+  const vertex = (x: number, h: number, d: number): Point3D => toRoom([
+    left + x, baseHeight + h * up + d * back, 0.16 + h * back - d * up,
+  ])
+
+  function bookBox(x0: number, x1: number, h0: number, h1: number, d0: number, d1: number, material: string) {
+    const profile = [[h0, d1], [h1, d1], [h1, d0], [h0, d0]]
+    faces.push({ vertices: profile.map(([h, d]) => vertex(x0, h, d)).reverse(), material: `${material} book-edge`, layer: 0 })
+    faces.push({ vertices: profile.map(([h, d]) => vertex(x1, h, d)), material: `${material} book-edge`, layer: 0 })
+    profile.forEach(([h, d], index) => {
+      const [nextH, nextD] = profile[(index + 1) % profile.length]
+      faces.push({
+        vertices: [vertex(x0, h, d), vertex(x0, nextH, nextD), vertex(x1, nextH, nextD), vertex(x1, h, d)],
+        material: `${material}${h === nextH ? ' book-edge' : ''}`,
+        layer: 0,
+      })
+    })
+  }
+
+  const cover = 0.003
+  const inset = 0.004
+  bookBox(0, book.width, 0, book.height, 0, cover, 'book-cover')
+  bookBox(inset, book.width - inset, inset, book.height - inset, cover, book.depth - cover, 'book-pages')
+  bookBox(0, inset, 0, book.height, cover, book.depth - cover, 'book-cover')
+  bookBox(0, book.width, 0, book.height, book.depth - cover, book.depth, 'book-cover')
+
+  // One group owns all faces: a future book-data binding can wrap this in an
+  // SVG link to /books/:slug without rebuilding the projected geometry.
+  return (
+    <g className={`display-book book-tone-${book.tone}`} data-book-id={book.id}>
+      {visibleFaces(faces).map(({ vertices, material }, index) => (
+        <polygon key={index} className={`book-face ${material}`} points={points(vertices)} />
+      ))}
+    </g>
+  )
+}
+
 function Shelf({ shelf }: { shelf: DisplayShelf }) {
   const { x, z, width, height, depth, angle } = shelf
   const halfWidth = width / 2
@@ -82,18 +180,19 @@ function Shelf({ shelf }: { shelf: DisplayShelf }) {
     y,
     z + localX * Math.sin(angle) + localZ * Math.cos(angle),
   ]
-  const faces: { vertices: Point3D[]; material: string }[] = []
+  const faces: Face[] = []
 
   // Extrude each joinery piece across the shelf. Sorting the resulting faces
   // in camera depth lets both visible ends follow the existing perspective.
-  function board(left: number, right: number, profile: readonly (readonly [number, number])[], material: string) {
-    faces.push({ vertices: profile.map(([y, d]) => toRoom([left, y, d])).reverse(), material: `${material} shelf-end` })
-    faces.push({ vertices: profile.map(([y, d]) => toRoom([right, y, d])), material: `${material} shelf-end` })
+  function board(left: number, right: number, profile: readonly (readonly [number, number])[], material: string, layer = 0) {
+    faces.push({ vertices: profile.map(([y, d]) => toRoom([left, y, d])).reverse(), material: `${material} shelf-end`, layer })
+    faces.push({ vertices: profile.map(([y, d]) => toRoom([right, y, d])), material: `${material} shelf-end`, layer })
     profile.forEach(([y, d], index) => {
       const [nextY, nextD] = profile[(index + 1) % profile.length]
       faces.push({
         vertices: [toRoom([left, y, d]), toRoom([left, nextY, nextD]), toRoom([right, nextY, nextD]), toRoom([right, y, d])],
         material: `${material}${y === nextY ? ' shelf-horizontal' : ''}`,
+        layer,
       })
     })
   }
@@ -109,17 +208,17 @@ function Shelf({ shelf }: { shelf: DisplayShelf }) {
   const cheek = [[0.1, 0], [0.3, 0], [height + 0.025, slopeDepth], [height + 0.025, depth - slopeDepth + thickness], [0.3, depth], [0.1, depth]] as const
   board(-halfWidth, -halfWidth + thickness, cheek, 'shelf-timber')
   board(halfWidth - thickness, halfWidth, cheek, 'shelf-timber')
-  board(-halfWidth + thickness, halfWidth - thickness, [[deckHeight, 0], [deckHeight + 0.045, 0], [deckHeight + 0.045, thickness], [deckHeight, thickness]], 'shelf-timber')
+  board(-halfWidth + thickness, halfWidth - thickness, [[deckHeight, 0], [deckHeight + 0.045, 0], [deckHeight + 0.045, thickness], [deckHeight, thickness]], 'shelf-timber', 2)
 
-  const cameraDepth = (vertices: Point3D[]) => vertices.reduce((sum, [px, , pz]) =>
-    sum + px * Math.sin(camera.yaw) + pz * Math.cos(camera.yaw), 0) / vertices.length
-  const visibleFaces = faces.filter(({ vertices: [a, b, c] }) => {
-    const ab = b.map((value, i) => value - a[i])
-    const ac = c.map((value, i) => value - a[i])
-    const normal = [ab[1] * ac[2] - ab[2] * ac[1], ab[2] * ac[0] - ab[0] * ac[2], ab[0] * ac[1] - ab[1] * ac[0]]
-    return normal[0] * -a[0] + normal[1] * (camera.eyeHeight - a[1]) + normal[2] * -a[2] > 0
-  })
-  visibleFaces.sort((a, b) => cameraDepth(b.vertices) - cameraDepth(a.vertices))
+  const books = shelfBooks[shelf.id]
+  const rowWidth = books.reduce((sum, book) => sum + book.width + book.gapAfter, 0)
+  const placements = books.map((book, index) => ({
+    book,
+    left: -rowWidth / 2 + books.slice(0, index).reduce((sum, previous) =>
+      sum + previous.width + previous.gapAfter, 0),
+  }))
+  const lean = Math.atan2(slopeDepth - 0.16, height - deckHeight)
+  const shelfFaces = visibleFaces(faces)
 
   return (
     <g className="display-shelf" data-shelf={shelf.id}>
@@ -130,8 +229,15 @@ function Shelf({ shelf }: { shelf: DisplayShelf }) {
           [halfWidth + 0.28, 0, depth + 0.2], [-halfWidth + 0.12, 0, depth + 0.2],
         ] satisfies Point3D[]).map(toRoom))}
       />
-      {visibleFaces.map(({ vertices, material }, index) => (
+      {shelfFaces.filter(({ layer }) => layer === 0).map(({ vertices, material }, index) => (
         <polygon key={index} className={`shelf-face ${material}`} points={points(vertices)} />
+      ))}
+      {placements.map(({ book, left }) => (
+        <ShelfBook key={book.id} book={book} left={left} lean={lean} baseHeight={deckHeight} toRoom={toRoom} />
+      ))}
+      {/* Draw the existing ledge last so it naturally masks the books' feet. */}
+      {shelfFaces.filter(({ layer }) => layer === 2).map(({ vertices, material }, index) => (
+        <polygon key={`ledge-${index}`} className={`shelf-face ${material}`} points={points(vertices)} />
       ))}
     </g>
   )
@@ -155,6 +261,9 @@ export function RoomShell() {
         a staggered composition: a quiet rear shelf, a long central island,
         and a shorter foreground shelf to the right. Sloping display faces,
         retaining ledges and shaped end panels give each piece physical depth.
+        Face-out books with quiet neutral covers lean against each sloped
+        display: eight on the central shelf, four at the rear, and five in
+        the foreground. Varied sizes and small groups leave space between books.
       </desc>
 
       <rect className="room-ceiling" width="1600" height="900" />

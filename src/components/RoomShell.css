@@ -97,3 +97,31 @@
   opacity: 0.1;
   filter: blur(5px);
 }
+
+/* Quiet placeholder colours; cover boards and recessed page blocks provide depth. */
+.book-tone-chalk { --book-cover: #e7e4da; --book-edge: #c9c6bc; }
+.book-tone-sand { --book-cover: #c9bea9; --book-edge: #aca18e; }
+.book-tone-clay { --book-cover: #bba59a; --book-edge: #9d8b81; }
+.book-tone-sage { --book-cover: #acb3a5; --book-edge: #90998a; }
+.book-tone-stone { --book-cover: #929892; --book-edge: #777f79; }
+
+.book-face {
+  stroke: #89877e;
+  stroke-width: 0.4;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.book-cover {
+  fill: var(--book-cover);
+}
+
+.book-cover.book-edge {
+  fill: var(--book-edge);
+}
+
+.book-pages {
+  fill: #eeeade;
+  stroke: #b4afa2;
+  stroke-width: 0.3;
+}
