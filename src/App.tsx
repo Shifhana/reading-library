@@ -2,11 +2,41 @@ import { useEffect, useRef, useState, type MouseEvent } from 'react'
 import './App.css'
 import { BookCard } from './components/BookCard'
 import { BookDetailPage } from './components/BookDetailPage'
-import { books } from './data/books'
+import { RoomShell } from './components/RoomShell'
+import { books, type ReadingStatus } from './data/books'
 
 type LibraryFilter = 'All' | 'Read' | 'Unread'
 
 const libraryFilters: LibraryFilter[] = ['All', 'Read', 'Unread']
+const readingShelves: {
+  id: string
+  title: string
+  status: ReadingStatus
+  description: string
+  emptyMessage: string
+}[] = [
+  {
+    id: 'in-progress',
+    title: 'In progress',
+    status: 'Currently reading',
+    description: 'Keeping me company.',
+    emptyMessage: 'Nothing in progress at the moment.',
+  },
+  {
+    id: 'to-read',
+    title: 'To read',
+    status: 'Unread',
+    description: 'Waiting to be opened.',
+    emptyMessage: 'No books waiting to be read.',
+  },
+  {
+    id: 'read',
+    title: 'Read',
+    status: 'Read',
+    description: 'Part of my reading life.',
+    emptyMessage: 'No finished books yet.',
+  },
+]
 
 function App() {
   const [selectedFilter, setSelectedFilter] = useState<LibraryFilter>('All')
@@ -136,7 +166,12 @@ function App() {
   })
 
   return (
-    <div className="site-shell">
+    <div className="site-shell room-study">
+      <main tabIndex={-1} aria-label="Architectural room exploration">
+        <RoomShell />
+      </main>
+      {/* Step 1 isolates the room; retain the existing library and its logic. */}
+      <div hidden>
       <header className="site-header">
         <div className="site-container">
           <h1 className="site-title">My Library</h1>
@@ -144,42 +179,44 @@ function App() {
       </header>
 
       <main className="site-container site-content" tabIndex={-1}>
-        <section aria-labelledby="library-statistics-heading">
-          <h2 id="library-statistics-heading">Library statistics</h2>
-          <dl className="library-statistics">
-            <div>
-              <dt>Total books</dt>
-              <dd>{totalBooks}</dd>
-            </div>
-            <div>
-              <dt>Read</dt>
-              <dd>{readBooks}</dd>
-            </div>
-            <div>
-              <dt>Unread</dt>
-              <dd>{unreadBooks}</dd>
-            </div>
-          </dl>
-        </section>
+        <div className="library-overview">
+          <section aria-labelledby="library-statistics-heading">
+            <h2 id="library-statistics-heading">Library statistics</h2>
+            <dl className="library-statistics">
+              <div>
+                <dt>Total books</dt>
+                <dd>{totalBooks}</dd>
+              </div>
+              <div>
+                <dt>Read</dt>
+                <dd>{readBooks}</dd>
+              </div>
+              <div>
+                <dt>Unread</dt>
+                <dd>{unreadBooks}</dd>
+              </div>
+            </dl>
+          </section>
 
-        <section
-          className="reading-highlight"
-          aria-labelledby="reading-highlight-heading"
-        >
-          <h2 id="reading-highlight-heading">{highlightedBookLabel}</h2>
-          {highlightedBook ? (
-            <div className="reading-highlight-book">
-              <h3>{highlightedBook.title}</h3>
-              <p>{highlightedBook.author}</p>
-            </div>
-          ) : (
-            <p className="reading-highlight-empty">
-              No book is currently selected.
-            </p>
-          )}
-        </section>
+          <section
+            className="reading-highlight"
+            aria-labelledby="reading-highlight-heading"
+          >
+            <h2 id="reading-highlight-heading">{highlightedBookLabel}</h2>
+            {highlightedBook ? (
+              <div className="reading-highlight-book">
+                <h3>{highlightedBook.title}</h3>
+                <p>{highlightedBook.author}</p>
+              </div>
+            ) : (
+              <p className="reading-highlight-empty">
+                No book is currently selected.
+              </p>
+            )}
+          </section>
+        </div>
 
-        <section
+        <div
           className="library"
           aria-labelledby="library-heading"
         >
@@ -190,7 +227,7 @@ function App() {
             className="library-filters"
             role="group"
             aria-label="Filter library"
-            aria-controls="library-grid"
+            aria-controls="library-shelves"
           >
             {libraryFilters.map((filter) => (
               <button
@@ -204,18 +241,52 @@ function App() {
               </button>
             ))}
           </div>
-          <div className="library-grid" id="library-grid">
-            {filteredBooks.map((book) => (
-              <BookCard
-                key={book.slug}
-                book={book}
-                href={`/books/${book.slug}`}
-                onNavigate={handleNavigation}
-              />
-            ))}
+          <div className="library-shelves" id="library-shelves">
+            {readingShelves.map((shelf) => {
+              // Filters keep their original meaning; grouping only changes placement.
+              if (
+                (selectedFilter === 'Read' && shelf.status !== 'Read') ||
+                (selectedFilter === 'Unread' && shelf.status === 'Read')
+              ) {
+                return null
+              }
+
+              const shelfBooks = filteredBooks.filter(
+                (book) => book.status === shelf.status,
+              )
+
+              return (
+                <section
+                  key={shelf.id}
+                  className={`library-shelf library-shelf--${shelf.id}`}
+                  aria-labelledby={`${shelf.id}-heading`}
+                >
+                  <header className="shelf-heading">
+                    <h2 id={`${shelf.id}-heading`}>{shelf.title}</h2>
+                    <p>{shelf.description}</p>
+                  </header>
+                  {shelfBooks.length > 0 ? (
+                    <ul className="shelf-books">
+                      {shelfBooks.map((book) => (
+                        <li className="shelf-place" key={book.slug}>
+                          <BookCard
+                            book={book}
+                            href={`/books/${book.slug}`}
+                            onNavigate={handleNavigation}
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="shelf-empty">{shelf.emptyMessage}</p>
+                  )}
+                </section>
+              )
+            })}
           </div>
-        </section>
+        </div>
       </main>
+      </div>
     </div>
   )
 }

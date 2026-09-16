@@ -84,6 +84,26 @@
   background: var(--color-surface);
 }
 
+.library-overview {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: end;
+}
+
+.library-overview .reading-highlight {
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 0;
+  padding: 0 0 1.625rem 2rem;
+  border-block: 0;
+  background: transparent;
+}
+
+.library-overview .reading-highlight-book h3 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
 .site-content .reading-highlight > h2 {
   margin: 0;
   font-family: inherit;
@@ -176,14 +196,128 @@
   outline-offset: 3px;
 }
 
-.library-grid {
+.library-shelves {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(min(100%, 10.5rem), 14rem)
-  );
-  gap: clamp(3rem, 7vw, 5rem) clamp(1.75rem, 4vw, 3.5rem);
-  justify-content: start;
+  gap: clamp(4.5rem, 9vw, 8rem);
+}
+
+.library-shelf {
+  min-width: 0;
+}
+
+.shelf-heading h2 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+.shelf-heading p {
+  margin: 0.875rem 0 0;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+
+.shelf-books {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+  row-gap: 2.5rem;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Each row shares a level edge, even when titles wrap to different lengths. */
+.shelf-place {
+  min-width: 0;
+  padding: 0 1.75rem 1.75rem 0;
+  border-bottom: 1px solid var(--color-rule-strong);
+}
+
+.shelf-place .book-card {
+  max-width: 12rem;
+}
+
+.library-shelf--in-progress {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+  gap: 2rem;
+  align-items: start;
+  padding: clamp(1.5rem, 4vw, 3rem) 0;
+  border-bottom: 1px solid var(--color-accent);
+}
+
+.library-shelf--in-progress .shelf-heading {
+  padding-top: 1.5rem;
+}
+
+.library-shelf--in-progress .shelf-heading h2 {
+  font-size: clamp(2.75rem, 6vw, 4.5rem);
+}
+
+.library-shelf--in-progress .shelf-books {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+}
+
+.library-shelf--in-progress .shelf-place {
+  border-bottom: 0;
+}
+
+.library-shelf--in-progress .book-card {
+  max-width: 14rem;
+}
+
+.library-shelf--to-read {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+  gap: 2rem;
+}
+
+.library-shelf--to-read .shelf-heading {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-rule-strong);
+}
+
+.library-shelf--read {
+  margin-left: 25%;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-rule-strong);
+}
+
+.library-shelf--read .shelf-heading {
+  margin-bottom: 2.5rem;
+}
+
+.library-shelf--read .shelf-books {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 11rem), 1fr));
+}
+
+.library-shelf--read .book-card {
+  max-width: 10.5rem;
+}
+
+.shelf-empty {
+  margin: 0;
+  padding-block: 2rem;
+  color: var(--color-muted);
+  border-bottom: 1px solid var(--color-rule);
+}
+
+@media (max-width: 60rem) {
+  .library-overview {
+    grid-template-columns: 1fr;
+  }
+
+  .library-shelf--to-read {
+    grid-template-columns: 1fr;
+  }
+
+  .library-shelf--read {
+    margin-left: 8%;
+  }
 }
 
 .route-message {
@@ -219,6 +353,34 @@
   }
 
   .reading-highlight {
+    grid-template-columns: 1fr;
+  }
+
+  .library-shelf--in-progress {
+    grid-template-columns: 1fr;
+  }
+
+  .library-shelf--in-progress .shelf-books {
+    padding-left: clamp(1rem, 8vw, 3rem);
+  }
+
+  .library-shelf--read {
+    margin-left: 0;
+  }
+
+  .shelf-books,
+  .library-shelf--read .shelf-books {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .shelf-place {
+    padding-right: 1rem;
+  }
+}
+
+@media (max-width: 22rem) {
+  .shelf-books,
+  .library-shelf--read .shelf-books {
     grid-template-columns: 1fr;
   }
 }
