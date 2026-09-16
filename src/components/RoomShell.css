@@ -11,15 +11,16 @@
 
 /* Uniform SVG scaling preserves the camera; narrow-screen composition is deferred. */
 .room-ceiling {
-  fill: #f8f7f3;
+  fill: #faf9f5;
 }
 
 .room-floor {
-  fill: #f1efe9;
+  fill: #e5e5de;
+  filter: url(#limestone-grain);
 }
 
 .room-back-wall {
-  fill: #f5f3ee;
+  fill: #f2ece2;
 }
 
 .room-glass {
@@ -32,15 +33,22 @@
 }
 
 .room-recess {
-  fill: #eeece6;
+  fill: #e7e0d5;
 }
 
 .room-return {
-  fill: #f4f2ec;
+  fill: #eee7dc;
 }
 
 .room-side-wall {
-  fill: #f7f5ef;
+  fill: #f5efe5;
+}
+
+.room-back-wall,
+.room-recess,
+.room-return,
+.room-side-wall {
+  filter: url(#plaster-grain);
 }
 
 .room-edge,
@@ -63,57 +71,121 @@
   stroke: #cecbc3;
 }
 
-/* Quiet material shading describes the joinery without changing room light. */
+/* Softer plaster joints; retain the existing glazing and frame treatment. */
+.room-edge:not(.room-glass) {
+  stroke: #c8c1b5;
+  stroke-width: 0.6;
+}
+
+/* Smooth, satin-finished pale timber with restrained edge definition. */
 .shelf-face {
-  stroke: #b8ac98;
-  stroke-width: 0.65;
+  stroke: #c0ad92;
+  stroke-width: 0.35;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
 }
 
 .shelf-timber {
-  fill: #ded3bf;
+  fill: url(#oak-edge);
 }
 
 .shelf-display {
-  fill: #e7decc;
+  fill: url(#oak-display);
 }
 
 .shelf-horizontal {
-  fill: #f0e8d9;
+  fill: #e9ddca;
+  stroke: #dac9b2;
 }
 
 .shelf-end {
-  fill: #d4c6af;
+  fill: url(#oak-side);
+  stroke: #beab92;
 }
 
 .shelf-plinth {
-  fill: #a99b84;
-  stroke: #a99b84;
+  fill: #af9e85;
+  stroke: #af9e85;
 }
 
 .shelf-shadow {
-  fill: #716853;
+  fill: #777363;
+  opacity: 0.17;
+  filter: blur(2px);
+}
+
+/* Light layers follow the existing projected faces; only shadows are softened. */
+.surface-light,
+.floor-lighting,
+.recess-lighting,
+.wall-foliage-lighting {
+  pointer-events: none;
+}
+
+.shelf-cast-shadow {
+  fill: #77786c;
   opacity: 0.1;
-  filter: blur(5px);
+}
+
+.book-contact-shadow {
+  fill: #726957;
+  opacity: 0.18;
+}
+
+.shelf-panel-shadow {
+  fill: #776c57;
+  opacity: 0.1;
+  filter: blur(0.7px);
+}
+
+.glazing-floor-shadow {
+  fill: #7e8072;
+  opacity: 0.055;
+  filter: blur(3px);
+}
+
+.foliage-shadow {
+  fill: #777c68;
+  opacity: 0.11;
+  filter: blur(2.7px);
+}
+
+.foliage-twig {
+  fill: none;
+  stroke: #777c68;
+  stroke-width: 1.2;
+  stroke-linecap: round;
+}
+
+.wall-foliage-lighting {
+  opacity: 0.6;
+}
+
+.wall-contact-shadow {
+  fill: none;
+  stroke: #777466;
+  stroke-width: 5;
+  opacity: 0.075;
+  filter: blur(2px);
 }
 
 /* Quiet placeholder colours; cover boards and recessed page blocks provide depth. */
-.book-tone-chalk { --book-cover: #e7e4da; --book-edge: #c9c6bc; }
-.book-tone-sand { --book-cover: #c9bea9; --book-edge: #aca18e; }
-.book-tone-clay { --book-cover: #bba59a; --book-edge: #9d8b81; }
-.book-tone-sage { --book-cover: #acb3a5; --book-edge: #90998a; }
-.book-tone-stone { --book-cover: #929892; --book-edge: #777f79; }
+.book-tone-chalk { --book-cover: #f0eee4; --book-edge: #d5d1c5; }
+.book-tone-sand { --book-cover: #c3b9aa; --book-edge: #a79d8f; }
+.book-tone-clay { --book-cover: #c6afa6; --book-edge: #aa928a; }
+.book-tone-sage { --book-cover: #a7b1a0; --book-edge: #89967f; }
+.book-tone-stone { --book-cover: #969e96; --book-edge: #7b867e; }
 
 .book-face {
-  stroke: #89877e;
-  stroke-width: 0.4;
+  stroke: #969287;
+  stroke-width: 0.35;
   stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
 }
 
 .book-cover {
   fill: var(--book-cover);
+  filter: url(#paper-grain);
 }
 
 .book-cover.book-edge {

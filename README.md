@@ -60,6 +60,25 @@ The design should rely on typography, whitespace, composition, and book covers r
 
 Custom redesigned book covers may be added later as a separate creative layer.
 
+### Current photorealistic room study
+
+The homepage displays `src/assets/reading-garden-intimate-room.webp`, a generated
+refinement with a shallower room, closer rear wall, shorter glazing/bay run, and
+no ceiling lights. It retains the exterior garden, three-shelf layout, pale oak,
+warm plaster, stone floor, soft sunlight, and rear stair/handrail detail.
+Earlier image assets remain available as source studies;
+the current render is a single image rather than stacked masked edits.
+The earlier editable SVG scene remains in `RoomShell.tsx` as a load-failure
+fallback; its geometry does not include the generated room-depth refinement.
+Product data and book-detail routes are unchanged.
+
+This is a still image: changing the SVG books will not update its visible covers.
+Before connecting displayed books to routes, align their interactive regions to
+the rendered covers; generated imagery does not guarantee exact pixel alignment
+with the source geometry. The room retains the existing full-screen crop behavior.
+
+Rendering method and prompts: [`docs/RENDERING.md`](./docs/RENDERING.md).
+
 ## Tech stack
 
 V1 uses:

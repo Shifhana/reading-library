@@ -1,3 +1,5 @@
+import { useState } from 'react'
+import photorealisticRoom from '../assets/reading-garden-intimate-room.webp'
 import './RoomShell.css'
 
 type Point3D = readonly [x: number, y: number, z: number]
@@ -38,6 +40,76 @@ function wall(x1: number, z1: number, x2: number, z2: number): Point3D[] {
 // The rear enclosure is oblique in plan, so it does not form a centred box.
 const backWall = wall(leftEdge, 13, 6, backDepth)
 const glazing = wall(leftEdge, 1, leftEdge, 13)
+const floor: Point3D[] = [
+  [leftEdge, 0, 1], [leftEdge, 0, 13], [6, 0, backDepth],
+  [8.4, 0, backDepth], [8.4, 0, 1],
+]
+
+// A shared daylight direction: from the left glazing, down and into the room.
+// Projecting along this ray keeps floor and book shadows in the room's scale.
+const daylight = { x: 0.85, y: -1, z: 0.35 }
+function floorShadow([x, y, z]: Point3D): Point3D {
+  return [x + daylight.x * y, 0, z + daylight.z * y]
+}
+
+function SurfaceLight({ vertices }: { vertices: Point3D[] }) {
+  const [a, b, c] = vertices
+  const ab = b.map((value, i) => value - a[i])
+  const ac = c.map((value, i) => value - a[i])
+  const normal = [ab[1] * ac[2] - ab[2] * ac[1], ab[2] * ac[0] - ab[0] * ac[2], ab[0] * ac[1] - ab[1] * ac[0]]
+  const facing = normal[0] * -a[0] + normal[1] * (camera.eyeHeight - a[1]) + normal[2] * -a[2] > 0 ? 1 : -1
+  const incidence = -facing * (normal[0] * daylight.x + normal[1] * daylight.y + normal[2] * daylight.z)
+    / (Math.hypot(...normal) * Math.hypot(daylight.x, daylight.y, daylight.z))
+  const centreX = vertices.reduce((sum, [x]) => sum + x, 0) / vertices.length
+  const centreZ = vertices.reduce((sum, [, , z]) => sum + z, 0) / vertices.length
+  const falloff = Math.max(0.45, 1 - (centreX - leftEdge) * 0.045)
+  const air = Math.max(0, Math.min(0.045, (centreZ - 8) * 0.004))
+
+  return (
+    <g className="surface-light" aria-hidden="true">
+      <polygon points={points(vertices)} fill="#777566" opacity={Math.max(0, 0.35 - incidence) * 0.12} />
+      <polygon points={points(vertices)} fill="url(#surface-daylight)" opacity={Math.max(0, incidence) * 0.3 * falloff + air} />
+    </g>
+  )
+}
+
+// Only the shadows of off-scene foliage: sparse branching clusters, with fixed
+// irregular spacing. Each silhouette is projected onto its receiving plane.
+function FoliageShadow({ onPlane }: { onPlane: (u: number, v: number) => Point3D }) {
+  const branches = [
+    { u: 0, v: 0, angle: 0.3, length: 2.1 },
+    { u: 0.65, v: 0.18, angle: 1.1, length: 1.35 },
+    { u: 1.3, v: 0.36, angle: -0.55, length: 1.15 },
+  ]
+  return (
+    <g className="foliage-shadow" aria-hidden="true">
+      {branches.map(({ u, v, angle, length }, branch) => (
+        <g key={branch}>
+          <polyline className="foliage-twig" points={points(Array.from({ length: 5 }, (_, i) => {
+            const t = i / 4
+            return onPlane(u + Math.cos(angle) * length * t, v + Math.sin(angle) * length * t + 0.06 * Math.sin(t * 3))
+          }))} />
+          {Array.from({ length: 14 }, (_, i) => {
+            const t = (i + 1) / 15
+            const side = i % 2 ? 1 : -1
+            const leafAngle = angle + side * (0.65 + 0.2 * Math.sin(i * 2.3 + branch))
+            const radius = 0.10 + 0.045 * (1 + Math.sin(i * 1.7 + branch))
+            const leafU = u + Math.cos(angle) * length * t + Math.cos(leafAngle) * radius
+            const leafV = v + Math.sin(angle) * length * t + Math.sin(leafAngle) * radius + 0.06 * Math.sin(t * 3)
+            return (
+              <polygon key={i} points={points(Array.from({ length: 12 }, (_, edge) => {
+                const theta = edge * Math.PI / 6
+                const along = Math.cos(theta) * radius
+                const across = Math.sin(theta) * radius * 0.38
+                return onPlane(leafU + along * Math.cos(leafAngle) - across * Math.sin(leafAngle), leafV + along * Math.sin(leafAngle) + across * Math.cos(leafAngle))
+              }))} />
+            )
+          })}
+        </g>
+      ))}
+    </g>
+  )
+}
 
 // Eight 1.5 m bays on the existing left plane. Frame widths are also in
 // metres, so both panel spacing and mullion thickness diminish with depth.
@@ -121,11 +193,12 @@ function visibleFaces(faces: Face[]) {
   }).sort((a, b) => a.layer - b.layer || cameraDepth(b.vertices) - cameraDepth(a.vertices))
 }
 
-function ShelfBook({ book, left, lean, baseHeight, toRoom }: {
+function ShelfBook({ book, left, lean, baseHeight, shelfAngle, toRoom }: {
   book: DisplayBook
   left: number
   lean: number
   baseHeight: number
+  shelfAngle: number
   toRoom: (point: Point3D) => Point3D
 }) {
   const faces: Face[] = []
@@ -136,6 +209,11 @@ function ShelfBook({ book, left, lean, baseHeight, toRoom }: {
   const vertex = (x: number, h: number, d: number): Point3D => toRoom([
     left + x, baseHeight + h * up + d * back, 0.16 + h * back - d * up,
   ])
+  const rayX = daylight.x * Math.cos(shelfAngle) + daylight.z * Math.sin(shelfAngle)
+  const rayZ = -daylight.x * Math.sin(shelfAngle) + daylight.z * Math.cos(shelfAngle)
+  const travel = book.depth / (back + rayZ * up)
+  const shadowX = travel * rayX
+  const shadowH = travel * (-up + rayZ * back)
 
   function bookBox(x0: number, x1: number, h0: number, h1: number, d0: number, d1: number, material: string) {
     const profile = [[h0, d1], [h1, d1], [h1, d0], [h0, d0]]
@@ -162,8 +240,15 @@ function ShelfBook({ book, left, lean, baseHeight, toRoom }: {
   // SVG link to /books/:slug without rebuilding the projected geometry.
   return (
     <g className={`display-book book-tone-${book.tone}`} data-book-id={book.id}>
+      <polygon className="book-contact-shadow" style={{ filter: `blur(${Math.max(0.35, 5 / toRoom([left, 0, 0])[2])}px)` }} points={points([
+        vertex(shadowX, 0, 0), vertex(book.width + shadowX, 0, 0),
+        vertex(book.width + shadowX, book.height + shadowH, 0), vertex(shadowX, book.height + shadowH, 0),
+      ])} />
       {visibleFaces(faces).map(({ vertices, material }, index) => (
-        <polygon key={index} className={`book-face ${material}`} points={points(vertices)} />
+        <g key={index}>
+          <polygon className={`book-face ${material}`} points={points(vertices)} />
+          <SurfaceLight vertices={vertices} />
+        </g>
       ))}
     </g>
   )
@@ -222,6 +307,10 @@ function Shelf({ shelf }: { shelf: DisplayShelf }) {
 
   return (
     <g className="display-shelf" data-shelf={shelf.id}>
+      <polygon className="shelf-cast-shadow" style={{ filter: `blur(${18 / z}px)` }} points={points(([
+        [-halfWidth, 0, 0], [halfWidth, 0, 0], [halfWidth, height, 0],
+        [halfWidth, height, depth], [-halfWidth, height, depth], [-halfWidth, 0, depth],
+      ] satisfies Point3D[]).map(toRoom).map(floorShadow))} />
       <polygon
         className="shelf-shadow"
         points={points(([
@@ -230,20 +319,32 @@ function Shelf({ shelf }: { shelf: DisplayShelf }) {
         ] satisfies Point3D[]).map(toRoom))}
       />
       {shelfFaces.filter(({ layer }) => layer === 0).map(({ vertices, material }, index) => (
-        <polygon key={index} className={`shelf-face ${material}`} points={points(vertices)} />
+        <g key={index}>
+          <polygon className={`shelf-face ${material}`} points={points(vertices)} />
+          <SurfaceLight vertices={vertices} />
+        </g>
       ))}
+      <polygon className="shelf-panel-shadow" points={points(([
+        [-halfWidth + thickness, deckHeight, 0.16], [-halfWidth + thickness + 0.10, deckHeight, 0.16],
+        [-halfWidth + thickness + 0.04, height, slopeDepth], [-halfWidth + thickness, height, slopeDepth],
+      ] satisfies Point3D[]).map(toRoom))} />
       {placements.map(({ book, left }) => (
-        <ShelfBook key={book.id} book={book} left={left} lean={lean} baseHeight={deckHeight} toRoom={toRoom} />
+        <ShelfBook key={book.id} book={book} left={left} lean={lean} baseHeight={deckHeight} shelfAngle={angle} toRoom={toRoom} />
       ))}
       {/* Draw the existing ledge last so it naturally masks the books' feet. */}
       {shelfFaces.filter(({ layer }) => layer === 2).map(({ vertices, material }, index) => (
-        <polygon key={`ledge-${index}`} className={`shelf-face ${material}`} points={points(vertices)} />
+        <g key={`ledge-${index}`}>
+          <polygon className={`shelf-face ${material}`} points={points(vertices)} />
+          <SurfaceLight vertices={vertices} />
+        </g>
       ))}
     </g>
   )
 }
 
 export function RoomShell() {
+  const [renderLoaded, setRenderLoaded] = useState(false)
+
   return (
     <svg
       className="room-shell"
@@ -252,30 +353,111 @@ export function RoomShell() {
       role="img"
       aria-labelledby="room-title room-description"
     >
-      <title id="room-title">The Reading Garden — perspective study</title>
+      <title id="room-title">The Reading Garden</title>
       <desc id="room-description">
-        A wide library interior viewed from an offset eye-level position.
-        Glazing recedes on the left toward a distant oblique rear wall. Broad
-        wall returns and recesses step into the distance on the right, above
-        an open foreground floor. Three low, pale timber display shelves form
+        An intimate library interior viewed from an offset eye-level position.
+        A shorter glazed wall on the left meets a closer warm plaster rear wall.
+        Broad wall returns and recesses enclose the shelves on the right, with
+        restrained open floor space. Three low, pale timber display shelves form
         a staggered composition: a quiet rear shelf, a long central island,
         and a shorter foreground shelf to the right. Sloping display faces,
         retaining ledges and shaped end panels give each piece physical depth.
         Face-out books with quiet neutral covers lean against each sloped
         display: eight on the central shelf, four at the rear, and five in
         the foreground. Varied sizes and small groups leave space between books.
+        Soft daylight enters from the left glazing, with diffuse foliage shadows
+        and gentle contact shadows grounding the shelves and books.
+        Beyond the glass, layered mature trees and muted planting open onto a
+        calm landscape. A clean ceiling without light fittings and a discreet
+        rear stair with a slender handrail complete the warm plaster architecture.
       </desc>
 
+      {/* Accepted material finishes stay separate from the daylight layers.
+          Seeded grain is still; neither materials nor light displace geometry. */}
+        <defs>
+        {/* Smooth satin timber: broad tonal transitions, without visible grain. */}
+        <linearGradient id="oak-display" x1="0.05" y1="0" x2="0.95" y2="1" gradientUnits="objectBoundingBox">
+          <stop offset="0" stopColor="#e2d5c1" />
+          <stop offset="0.35" stopColor="#dacbb5" />
+          <stop offset="1" stopColor="#d3c1a7" />
+        </linearGradient>
+        <linearGradient id="oak-edge" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+          <stop offset="0" stopColor="#e5d8c4" />
+          <stop offset="0.4" stopColor="#d8c7af" />
+          <stop offset="1" stopColor="#cbb79c" />
+        </linearGradient>
+        <linearGradient id="oak-side" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+          <stop offset="0" stopColor="#d8c9b3" />
+          <stop offset="1" stopColor="#cbb79f" />
+        </linearGradient>
+        <filter id="limestone-grain" x="0" y="0" width="100%" height="100%" colorInterpolationFilters="sRGB">
+          <feTurbulence type="fractalNoise" baseFrequency="0.008 0.014" numOctaves="3" seed="23" />
+          <feColorMatrix type="matrix" values="0 0 0 0 0.48  0 0 0 0 0.47  0 0 0 0 0.42  0.05 0 0 0 -0.012" />
+          <feComposite in2="SourceAlpha" operator="in" />
+          <feBlend in2="SourceGraphic" mode="multiply" />
+        </filter>
+        <filter id="plaster-grain" x="0" y="0" width="100%" height="100%" colorInterpolationFilters="sRGB">
+          <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="8" />
+          <feColorMatrix type="matrix" values="0 0 0 0 0.6  0 0 0 0 0.56  0 0 0 0 0.49  0.035 0 0 0 -0.008" />
+          <feComposite in2="SourceAlpha" operator="in" />
+          <feBlend in2="SourceGraphic" mode="multiply" />
+        </filter>
+        <filter id="paper-grain" x="0" y="0" width="100%" height="100%" colorInterpolationFilters="sRGB">
+          <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="1" seed="5" />
+          <feColorMatrix type="matrix" values="0 0 0 0 0.45  0 0 0 0 0.43  0 0 0 0 0.38  0.11 0 0 0 -0.025" />
+          <feComposite in2="SourceAlpha" operator="in" />
+          <feBlend in2="SourceGraphic" mode="multiply" />
+        </filter>
+        <clipPath id="floor-light-clip"><polygon points={points(floor)} /></clipPath>
+        <clipPath id="back-wall-light-clip"><polygon points={points(backWall)} /></clipPath>
+        <radialGradient id="floor-daylight" gradientUnits="userSpaceOnUse" cx="170" cy="760" r="1050" gradientTransform="translate(0 304) scale(1 0.6)">
+          <stop offset="0" stopColor="#fff9e9" stopOpacity="0.62" />
+          <stop offset="0.5" stopColor="#fff9e9" stopOpacity="0.3" />
+          <stop offset="1" stopColor="#fff9e9" stopOpacity="0" />
+        </radialGradient>
+        <linearGradient id="surface-daylight" gradientUnits="userSpaceOnUse" x1="180" y1="320" x2="1500" y2="620">
+          <stop offset="0" stopColor="#fff9e9" stopOpacity="1" />
+          <stop offset="1" stopColor="#fff9e9" stopOpacity="0.45" />
+        </linearGradient>
+        <linearGradient id="wall-daylight" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#fff9e9" stopOpacity="0.42" />
+          <stop offset="0.65" stopColor="#fff9e9" stopOpacity="0.06" />
+          <stop offset="1" stopColor="#fff9e9" stopOpacity="0" />
+        </linearGradient>
+        <linearGradient id="recess-shade" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#777568" stopOpacity="0.15" />
+          <stop offset="0.35" stopColor="#777568" stopOpacity="0.045" />
+          <stop offset="1" stopColor="#777568" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+
+      {/* Retain the editable scene as an asset-load fallback and as the source
+          for future book interaction work. The render itself is a still image. */}
+      <g visibility={renderLoaded ? 'hidden' : undefined} aria-hidden={renderLoaded || undefined}>
       <rect className="room-ceiling" width="1600" height="900" />
       {/* The floor extends beyond the frame; all visible junctions are projected. */}
       <polygon
         className="room-floor"
-        points={points([
-          [leftEdge, 0, 1], [leftEdge, 0, 13], [6, 0, backDepth],
-          [8.4, 0, backDepth], [8.4, 0, 1],
-        ])}
+        points={points(floor)}
       />
+      <g className="floor-lighting" clipPath="url(#floor-light-clip)" aria-hidden="true">
+        <polygon points={points(floor)} fill="url(#floor-daylight)" />
+        <g className="glazing-floor-shadow">
+          {mullionDepths.map((depth) => (
+            <polygon key={depth} points={points([
+              [leftEdge, 0, depth - 0.035], floorShadow([leftEdge, ceilingHeight, depth - 0.035]),
+              floorShadow([leftEdge, ceilingHeight, depth + 0.035]), [leftEdge, 0, depth + 0.035],
+            ])} />
+          ))}
+        </g>
+        <FoliageShadow onPlane={(u, v) => [-3.1 + u * 1.25, 0, 2.1 + v * 1.15]} />
+        <FoliageShadow onPlane={(u, v) => [-2.4 + u * 1.1, 0, 5.9 + v * 1.3]} />
+      </g>
       <polygon className="room-back-wall room-edge" points={points(backWall)} />
+      <polygon points={points(backWall)} fill="url(#wall-daylight)" className="surface-light" />
+      <g clipPath="url(#back-wall-light-clip)" className="wall-foliage-lighting">
+        <FoliageShadow onPlane={(u, v) => [-2.8 + u, 0.8 + v, 13 + (0.2 + u) * 7 / 9]} />
+      </g>
       <polygon className="room-glass room-edge" points={points(glazing)} />
 
       <g className="room-glazing-frame">
@@ -308,18 +490,24 @@ export function RoomShell() {
             className="room-recess room-edge"
             points={points(wall(8.4, near, 8.4, far))}
           />
+          <SurfaceLight vertices={wall(8.4, near, 8.4, far)} />
+          <polygon className="recess-lighting" points={points(wall(8.4, near, 8.4, far))} fill="url(#recess-shade)" />
           <polygon
             className="room-return room-edge"
             points={points(wall(6, far, 8.4, far))}
           />
+          <SurfaceLight vertices={wall(6, far, 8.4, far)} />
           <polygon
             className="room-side-wall room-edge"
             points={points(wall(6, near, 6, near + 0.8))}
           />
+          <polygon className="surface-light" points={points(wall(6, near, 6, near + 0.8))} fill="url(#wall-daylight)" />
           <polygon
             className="room-return room-edge"
             points={points(wall(6, near + 0.8, 8.4, near + 0.8))}
           />
+          <SurfaceLight vertices={wall(6, near + 0.8, 8.4, near + 0.8)} />
+          <polyline className="wall-contact-shadow" points={points([[8.4, 0, near], [8.4, 0, far]])} />
         </g>
       ))}
 
@@ -339,6 +527,15 @@ export function RoomShell() {
       />
 
       {displayShelves.map((shelf) => <Shelf key={shelf.id} shelf={shelf} />)}
+      </g>
+      <image
+        href={photorealisticRoom}
+        width="1600"
+        height="900"
+        preserveAspectRatio="xMidYMid slice"
+        onLoad={() => setRenderLoaded(true)}
+        onError={() => setRenderLoaded(false)}
+      />
     </svg>
   )
 }
