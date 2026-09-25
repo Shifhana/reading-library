@@ -197,3 +197,185 @@
   stroke: #b4afa2;
   stroke-width: 0.3;
 }
+
+/* The image and cover outlines share one SVG coordinate system, including crop.
+   Scaling suggests a small pull toward the viewer without moving the shelf. */
+.room-book-interactions {
+  pointer-events: none;
+}
+
+.room-book-target {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  outline: none;
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.room-book-backing {
+  opacity: 0;
+  transition: opacity 0s linear 240ms;
+}
+
+.room-book-motion {
+  transform-box: view-box;
+  transform-origin: var(--book-origin);
+  transition:
+    transform 240ms cubic-bezier(0.2, 0.65, 0.3, 1),
+    filter 240ms ease;
+}
+
+.room-book-focus {
+  fill: none;
+  stroke: #344a37;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  opacity: 0;
+}
+
+.room-book:has(:focus-visible) .room-book-motion {
+  transform: translateY(calc(-1 * var(--book-lift))) scale(1.025);
+  filter: drop-shadow(1px 3px var(--book-shadow) rgb(55 40 25 / 28%));
+}
+
+.room-book:has(:focus-visible) .room-book-backing,
+.room-book:has(:focus-visible) .room-book-focus {
+  opacity: 1;
+  transition-delay: 0s;
+}
+
+@media (hover: hover) {
+  .room-book:hover .room-book-motion {
+    transform: translateY(calc(-1 * var(--book-lift))) scale(1.025);
+    filter: drop-shadow(1px 3px var(--book-shadow) rgb(55 40 25 / 28%));
+  }
+
+  .room-book:hover .room-book-backing {
+    opacity: 1;
+    transition-delay: 0s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .room-book .room-book-motion {
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Selection overrides only the picked cover; the hover layer above is unchanged. */
+.room-book[data-picked] .room-book-backing {
+  opacity: 0;
+  transition: none;
+}
+
+/* The physical model owns the picked pose, including the measured hover start. */
+.room-book[data-picked] .room-book-motion {
+  transform: none;
+  filter: none;
+  transition: none;
+}
+
+.room-book[data-picked] .room-book-focus { opacity: 0; }
+.room-book[data-picked] .physical-book { pointer-events: visiblePainted; }
+
+.room-book-target:disabled {
+  pointer-events: none;
+}
+
+.room-selection-dimmer {
+  fill: #34352f;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 700ms ease;
+}
+
+.room-selection-dimmer[data-visible='true'] {
+  opacity: 0.16;
+  pointer-events: all;
+}
+
+.room-book-return {
+  display: block;
+  margin: 0 auto;
+  padding: 0.55em 0.85em;
+  border: 0;
+  border-radius: 2px;
+  color: #343a30;
+  background: transparent;
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  cursor: pointer;
+  pointer-events: all;
+}
+
+.room-book-return:focus-visible {
+  outline: 2px solid #344a37;
+  outline-offset: 3px;
+}
+
+.room-held-open {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: all;
+  outline: none;
+}
+
+.room-held-open:disabled { pointer-events: none; }
+.room-held-open:focus-visible {
+  outline: 1px solid #344a37;
+  outline-offset: 5px;
+}
+
+.room-book-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4em 0.8em;
+  padding: 0.4em;
+  color: #343a30;
+  font-family: var(--font-sans);
+}
+
+.room-book-controls .room-book-return { margin: 0; font-size: inherit; }
+.room-page-control {
+  border: 0;
+  padding: 0.45em 0.7em;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+  pointer-events: all;
+}
+
+.room-page-control[aria-disabled='true'] { opacity: 0.35; cursor: default; }
+.room-page-control:focus-visible { outline: 2px solid #344a37; outline-offset: 2px; }
+.room-spread-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.room-book-controls { transition: opacity 180ms ease; }
+.room-book-controls[data-quiet] { opacity: 0; pointer-events: none; }
+.room-book-controls[data-quiet] button { pointer-events: none; }
+.room-book-return:hover { text-decoration: underline; text-underline-offset: 0.3em; }
+
+@media (prefers-reduced-motion: reduce) {
+  /* Keep the selected end position but omit the large travel/zoom animation. */
+  .room-book[data-picked] .room-book-motion,
+  .room-selection-dimmer {
+    transition: none;
+  }
+  .room-book-controls { transition: none; }
+}

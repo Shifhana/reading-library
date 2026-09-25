@@ -62,20 +62,47 @@ Custom redesigned book covers may be added later as a separate creative layer.
 
 ### Current photorealistic room study
 
-The homepage displays `src/assets/reading-garden-intimate-room.webp`, a generated
-refinement with a shallower room, closer rear wall, shorter glazing/bay run, and
-no ceiling lights. It retains the exterior garden, three-shelf layout, pale oak,
-warm plaster, stone floor, soft sunlight, and rear stair/handrail detail.
-Earlier image assets remain available as source studies;
-the current render is a single image rather than stacked masked edits.
-The earlier editable SVG scene remains in `RoomShell.tsx` as a load-failure
-fallback; its geometry does not include the generated room-depth refinement.
-Product data and book-detail routes are unchanged.
+The homepage uses `src/assets/reading-garden-level-camera-v5.png` (1672 × 941),
+a subtly realigned view of the portal-free room. The level, slightly more
+front-facing camera reveals a little more of the continuous plaster right wall
+while retaining the left garden facade, all three shelves, all 17 books and the
+warm daylight. Earlier assets remain available as source studies; the editable
+SVG is a static load fallback.
 
-This is a still image: changing the SVG books will not update its visible covers.
-Before connecting displayed books to routes, align their interactive regions to
-the rendered covers; generated imagery does not guarantee exact pixel alignment
-with the source geometry. The room retains the existing full-screen crop behavior.
+The right boundary uses a clipped `reading-garden-integrated-terracotta-v13.png` architecture
+layer: a recessed jali-brick base, continuous pale mineral coping, and slender
+warm off-white sage rails with horizontal supports curving into the recessed
+roof edge. Sky and planting remain visible through the exposed canopy.
+The original image supplies all shelf/book pixels.
+The latest pass adds deep through-voids and refines coping and rail fixing details
+without changing the assembly or interaction geometry.
+The sitting edge is now a solid terracotta cap over the perforated base, replacing
+the separate cement bench. The overhead rail projection is shorter and restrained.
+
+`RoomBookInteractions.tsx` retains the existing hover affordance. Pickup measures
+both the resting shelf rectangle and the current hovered outline, then converts
+them into the same SVG coordinate system used by the render. `PhysicalBook.tsx`
+interpolates the original textured cover's corners to its held pose. Opening and
+closing fold that same cover around its spine over a permanent page block, with
+coloured binding, edge thickness, paper grain and a soft depth shadow. Three
+blank spreads have tiny prototype page numbers and one visibly shaded moving
+sheet per turn. Use the arrow controls or Left/Right keys to navigate; Close,
+Escape or the backdrop settles a moving page, shuts the book, pauses briefly,
+and returns it to the shelf. Keyboard focus returns to the selected shelf book.
+
+The original book remains visible in the base image as a static, non-interactive
+placeholder during selection. The timber slot masks are removed. The animated
+cover returns to the captured resting geometry; only after its final aligned
+frame and a short settling interval is normal shelf interaction restored.
+A single numeric pose owns translation, dimensions, orientation and depth;
+no additional selected/return CSS scaling is applied. State changes follow
+animation completion rather than assuming a fixed timer means it has finished.
+Reduced-motion preferences bypass movement, folding and settling delays.
+Real content, library-record binding and detail navigation remain deferred.
+
+Browser verification covered foreground, middle and rear books, keyboard open/
+page/close controls, retained shelf placeholders and final return dimensions.
+Cover outlines remain tied to this registered render.
 
 Rendering method and prompts: [`docs/RENDERING.md`](./docs/RENDERING.md).
 

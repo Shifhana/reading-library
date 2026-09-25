@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import photorealisticRoom from '../assets/reading-garden-intimate-room.webp'
+import photorealisticRoom from '../assets/reading-garden-reference-v19.png'
+import { RoomBookInteractions } from './RoomBookInteractions'
 import './RoomShell.css'
 
 type Point3D = readonly [x: number, y: number, z: number]
@@ -348,9 +349,9 @@ export function RoomShell() {
   return (
     <svg
       className="room-shell"
-      viewBox="0 0 1600 900"
+      viewBox="0 0 1855 848"
       preserveAspectRatio="xMidYMid slice"
-      role="img"
+      role="group"
       aria-labelledby="room-title room-description"
     >
       <title id="room-title">The Reading Garden</title>
@@ -368,8 +369,11 @@ export function RoomShell() {
         Soft daylight enters from the left glazing, with diffuse foliage shadows
         and gentle contact shadows grounding the shelves and books.
         Beyond the glass, layered mature trees and muted planting open onto a
-        calm landscape. A clean ceiling without light fittings and a discreet
-        rear stair with a slender handrail complete the warm plaster architecture.
+        calm landscape. Along the right edge, a low jali-brick base with a solid
+        terracotta sitting cap supports slender warm off-white sage rails and fine
+        horizontal braces that curve overhead into a recessed cut-back roof
+        edge, with open sky, filtered daylight and layered garden planting beyond.
+        The integrated masonry sitting edge grounds the boundary beneath a modest canopy.
       </desc>
 
       {/* Accepted material finishes stay separate from the daylight layers.
@@ -432,7 +436,7 @@ export function RoomShell() {
       </defs>
 
       {/* Retain the editable scene as an asset-load fallback and as the source
-          for future book interaction work. The render itself is a still image. */}
+          for geometry studies. Interactive cutouts sit above the still render. */}
       <g visibility={renderLoaded ? 'hidden' : undefined} aria-hidden={renderLoaded || undefined}>
       <rect className="room-ceiling" width="1600" height="900" />
       {/* The floor extends beyond the frame; all visible junctions are projected. */}
@@ -530,12 +534,13 @@ export function RoomShell() {
       </g>
       <image
         href={photorealisticRoom}
-        width="1600"
-        height="900"
+        width="1855"
+        height="848"
         preserveAspectRatio="xMidYMid slice"
         onLoad={() => setRenderLoaded(true)}
         onError={() => setRenderLoaded(false)}
       />
+      {renderLoaded && <RoomBookInteractions image={photorealisticRoom} />}
     </svg>
   )
 }
