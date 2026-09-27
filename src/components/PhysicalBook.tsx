@@ -159,7 +159,7 @@ export function PhysicalBook({ id, image, corners, colour, picked, returning, ex
       {triangles.map((indices, index) => <g key={index} opacity={front ? 1 : 0}>
         <defs><clipPath id={`${id}-face-${index}`}><polygon points={points(indices.map((i) => cover[i]))} /></clipPath></defs>
         <g clipPath={`url(#${id}-face-${index})`}>
-          <image href={image} width="1855" height="848"
+          <image href={image} width="1855" height="848" preserveAspectRatio="none"
             transform={triangleMatrix(indices.map((i) => corners[i]), indices.map((i) => cover[i]))} />
         </g>
       </g>)}

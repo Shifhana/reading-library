@@ -1,5 +1,7 @@
-import { useState } from 'react'
-import photorealisticRoom from '../assets/reading-garden-reference-v19.png'
+import { useState, type CSSProperties } from 'react'
+import { useEnvironment } from '../environment/useEnvironment'
+import { EnvironmentLayers, EnvironmentDisplay } from '../environment/ReadingEnvironment'
+import photorealisticRoom from '../assets/reading-garden-neutral-v21.png'
 import { RoomBookInteractions } from './RoomBookInteractions'
 import './RoomShell.css'
 
@@ -345,10 +347,13 @@ function Shelf({ shelf }: { shelf: DisplayShelf }) {
 
 export function RoomShell() {
   const [renderLoaded, setRenderLoaded] = useState(false)
+  const environment = useEnvironment()
 
   return (
     <svg
       className="room-shell"
+      data-environment={environment.atmosphere.time}
+      style={{ '--environment-book-brightness': environment.atmosphere.bookBrightness } as CSSProperties}
       viewBox="0 0 1855 848"
       preserveAspectRatio="xMidYMid slice"
       role="group"
@@ -534,12 +539,16 @@ export function RoomShell() {
       </g>
       <image
         href={photorealisticRoom}
+        className="environment-fade"
+        style={{ filter: `brightness(${environment.atmosphere.exposure}) contrast(${environment.atmosphere.contrast}) sepia(${environment.atmosphere.warmth})` }}
         width="1855"
         height="848"
-        preserveAspectRatio="xMidYMid slice"
+        preserveAspectRatio="none"
         onLoad={() => setRenderLoaded(true)}
         onError={() => setRenderLoaded(false)}
       />
+      <EnvironmentLayers environment={environment} image={photorealisticRoom} />
+      <EnvironmentDisplay environment={environment} />
       {renderLoaded && <RoomBookInteractions image={photorealisticRoom} />}
     </svg>
   )

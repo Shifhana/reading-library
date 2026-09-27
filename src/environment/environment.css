@@ -1,0 +1,39 @@
+.environment-fade, .environment-shadow { transition: opacity 900ms ease, filter 900ms ease, transform 900ms ease; }
+.environment-layers { isolation: isolate; }
+
+.room-shell .room-book:not([data-picked]) .physical-book {
+  filter: brightness(var(--environment-book-brightness, 1));
+  transition: filter 900ms ease;
+}
+.environment-clock { text-align: center; color: #514b40; font-family: var(--font-sans, sans-serif); padding: 6px; }
+.environment-clock time { display: block; font-size: 48px; font-weight: 300; letter-spacing: .07em; line-height: 1.35; font-variant-numeric: tabular-nums; }
+.environment-clock button { font: inherit; font-size: 13px; letter-spacing: .04em; color: inherit; background: none; border: 0; padding: 8px 10px; cursor: pointer; }
+.environment-clock[data-night] { color: #e4ddce; }
+.environment-clock button:hover { text-decoration: underline; text-underline-offset: 5px; }
+.environment-clock button:focus-visible { outline: 1px solid currentColor; outline-offset: 3px; }
+.environment-dialog { border: 1px solid #cec4b2; border-radius: 3px; padding: 28px; background: #f6f2e9; color: #393b31; width: min(440px, calc(100vw - 40px)); max-height: 85svh; overflow: auto; box-shadow: 0 16px 60px #24282030; }
+.environment-dialog::backdrop { background: #20282060; }
+.environment-dialog h2 { font-size: 24px; font-weight: 400; margin: 0 0 12px; }
+.environment-dialog p { font-size: 14px; line-height: 1.6; }
+.environment-dialog label { display: block; font-size: 13px; margin-bottom: 8px; }
+.environment-search { display: flex; gap: 8px; }
+.environment-search input { min-width: 0; flex: 1; border: 1px solid #b5af9f; padding: 10px; background: #fffdf7; color: inherit; font: inherit; }
+.environment-dialog button { border: 1px solid #b5af9f; background: transparent; color: inherit; padding: 9px 12px; font: inherit; cursor: pointer; }
+.environment-dialog :focus-visible, .environment-debug :focus-visible { outline: 2px solid #526647; outline-offset: 3px; }
+.environment-dialog button:disabled { opacity: .6; cursor: wait; }
+.environment-dialog ul { list-style: none; padding: 0; }
+.environment-dialog li button { width: 100%; text-align: left; margin: 3px 0; }
+.environment-dialog li small { display: block; font-size: 12px; margin-top: 4px; }
+.environment-dialog-actions { display: flex; justify-content: space-between; margin-top: 18px; }
+.environment-dialog .environment-sources { font-size: 11px; margin-top: 24px; }
+.environment-sources a { color: inherit; }
+.environment-debug { position: fixed; left: 16px; bottom: 16px; z-index: 10; width: min(310px, calc(100vw - 32px)); padding: 14px; background: #f5f1e9f2; color: #373c32; border: 1px solid #a6aa97; font: 13px/1.5 sans-serif; }
+.environment-debug summary { cursor: pointer; }
+.environment-debug fieldset { border: 0; margin: 8px 0; padding: 0; }
+.environment-debug label { display: flex; gap: 8px; align-items: center; margin: 8px 0; }
+.environment-debug select { margin-left: auto; padding: 4px; max-width: 175px; }
+.environment-debug small { display: block; font-size: 11px; }
+@media (prefers-reduced-motion: reduce) {
+  .environment-fade, .environment-shadow, .room-shell .room-book:not([data-picked]) .physical-book { transition: none; }
+  .environment-rain { animation: none; }
+}

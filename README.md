@@ -191,6 +191,12 @@ To create a production build:
 npm run build
 ```
 
+## Reading Garden environment preview
+
+The garden uses four browser-local time states. Weather simulation and location requests are currently disabled.
+
+During `npm run dev`, open `/?environment=preview` for the development time simulator. See [environment implementation and review steps](docs/ENVIRONMENT.md) for data services, caching, reduced motion and the limits of relighting the static reference image. Run focused checks with `node --test tests/environment.test.mjs` (Node 24).
+
 ## Deployment
 
 The live site URL will be added here after V1 is deployed.
