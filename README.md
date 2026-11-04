@@ -199,9 +199,9 @@ During `npm run dev`, open `/?environment=preview` for the development time simu
 
 ## Deployment
 
-The live site URL will be added here after V1 is deployed.
+Netlify automatically builds and publishes changes pushed to `main` using the existing `netlify.toml` configuration.
 
-**Live site:** _Coming after T0014 — Deployment_
+**Live site:** https://merry-tartufo-603f79.netlify.app
 
 ## Project status
 
