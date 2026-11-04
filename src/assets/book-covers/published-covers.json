@@ -1,0 +1,200 @@
+[
+  {
+    "slug": "articulating-design-decisions",
+    "file": "articulating-design-decisions-published.jpg",
+    "isbn": "9781491921555",
+    "source": "https://covers.oreillystatic.com/images/9781491921555/lrg.jpg",
+    "width": 500,
+    "height": 750,
+    "bytes": 80778,
+    "note": "Complete published front cover; original aspect ratio preserved."
+  },
+  {
+    "slug": "lean-ux-applying-lean-principles-to-improve-user-experience",
+    "file": "lean-ux-applying-lean-principles-to-improve-user-experience-published.jpg",
+    "isbn": "9781449311650",
+    "source": "https://covers.oreillystatic.com/images/9781449311650/lrg.jpg",
+    "width": 500,
+    "height": 750,
+    "bytes": 60218,
+    "note": "Complete published front cover; original aspect ratio preserved."
+  },
+  {
+    "slug": "dont-make-me-think-revisited",
+    "file": "dont-make-me-think-revisited-published.jpg",
+    "isbn": "9780321965516",
+    "source": "https://covers.openlibrary.org/b/isbn/9780321965516-L.jpg?default=false",
+    "width": 311,
+    "height": 400,
+    "bytes": 23520,
+    "note": "Complete published front cover; original aspect ratio preserved."
+  },
+  {
+    "slug": "design-for-how-people-think",
+    "file": "design-for-how-people-think-published.jpg",
+    "isbn": "9781491985458",
+    "source": "https://covers.oreillystatic.com/images/9781491985458/lrg.jpg",
+    "width": 500,
+    "height": 750,
+    "bytes": 70813,
+    "note": "Complete published front cover; original aspect ratio preserved."
+  },
+  {
+    "slug": "user-friendly",
+    "file": "user-friendly-published.jpg",
+    "isbn": "9780374279752",
+    "source": "https://images.macmillan.com/folio-assets/macmillan_us_frontbookcovers_1000H/9780374279752.jpg",
+    "width": 652,
+    "height": 1000,
+    "bytes": 108029,
+    "note": "Complete published front cover; original aspect ratio preserved."
+  },
+  {
+    "slug": "sprint-how-to-solve-big-problems-and-test-new-ideas-in-just-five-days",
+    "file": "sprint-how-to-solve-big-problems-and-test-new-ideas-in-just-five-days-published.jpg",
+    "isbn": "9781501121746",
+    "source": "https://covers.openlibrary.org/b/isbn/9781501121746-L.jpg?default=false",
+    "width": 331,
+    "height": 499,
+    "bytes": 39071,
+    "note": "Complete published front cover; original aspect ratio preserved."
+  },
+  {
+    "slug": "atomic-design",
+    "file": "atomic-design-published.svg",
+    "isbn": null,
+    "source": "https://atomicdesign.bradfrost.com/images/book-cover.svg",
+    "format": "svg",
+    "note": "Original author-published vector cover, no raster upscaling."
+  },
+  {
+    "slug": "art-of-innovation",
+    "file": "art-of-innovation-published.jpg",
+    "isbn": "9780385499842",
+    "source": "https://images.penguinrandomhouse.com/cover/9780385499842?width=800&height=1200",
+    "width": 443,
+    "height": 675,
+    "bytes": 39912,
+    "note": "Complete published front cover; original aspect ratio preserved."
+  },
+  {
+    "slug": "designing-interactions",
+    "file": "designing-interactions-published.jpg",
+    "isbn": "9780262134743",
+    "source": "https://covers.openlibrary.org/b/isbn/9780262134743-L.jpg?default=false",
+    "width": 416,
+    "height": 500,
+    "bytes": 44767,
+    "note": "Complete published front cover; original aspect ratio preserved."
+  },
+  {
+    "slug": "about-face-the-essentials-of-interaction-design",
+    "file": "about-face-the-essentials-of-interaction-design-published.jpg",
+    "isbn": "9781118766576",
+    "source": "https://covers.openlibrary.org/b/isbn/9781118766576-L.jpg?default=false",
+    "width": 402,
+    "height": 500,
+    "bytes": 34132,
+    "note": "Complete published front cover; original aspect ratio preserved."
+  },
+  {
+    "slug": "the-pocket-universal-principles-of-design",
+    "file": "the-pocket-universal-principles-of-design-published.jpg",
+    "isbn": "9781631590405",
+    "source": "https://m.media-amazon.com/images/P/1631590405.01.LZZZZZZZ.jpg",
+    "width": 498,
+    "height": 500,
+    "bytes": 44893,
+    "note": "Complete published front cover; original aspect ratio preserved."
+  },
+  {
+    "slug": "thinking-fast-and-slow",
+    "file": "thinking-fast-and-slow-published.jpg",
+    "isbn": "9780374533557",
+    "source": "https://images.macmillan.com/folio-assets/macmillan_us_frontbookcovers_1000H/9780374533557.jpg",
+    "width": 668,
+    "height": 1000,
+    "bytes": 57611,
+    "note": "Complete published front cover; original aspect ratio preserved."
+  },
+  {
+    "slug": "inspired",
+    "file": "inspired-published.jpg",
+    "isbn": "9781119387503",
+    "source": "https://covers.openlibrary.org/b/isbn/9781119387503-L.jpg?default=false",
+    "width": 332,
+    "height": 494,
+    "bytes": 20783,
+    "note": "Complete published front cover; original aspect ratio preserved."
+  },
+  {
+    "slug": "empowered",
+    "file": "empowered-published.jpg",
+    "isbn": "9781119691297",
+    "source": "https://covers.openlibrary.org/b/isbn/9781119691297-L.jpg?default=false",
+    "width": 337,
+    "height": 500,
+    "bytes": 26451,
+    "note": "Complete published front cover; original aspect ratio preserved."
+  },
+  {
+    "slug": "universal-principles-of-ux",
+    "file": "universal-principles-of-ux-published.jpg",
+    "isbn": "9780760378045",
+    "source": "https://covers.openlibrary.org/b/isbn/9780760378045-L.jpg?default=false",
+    "width": 425,
+    "height": 500,
+    "bytes": 37999,
+    "note": "Complete published front cover; original aspect ratio preserved."
+  },
+  {
+    "slug": "designing-design",
+    "file": "designing-design-published.jpg",
+    "isbn": "9783037781050",
+    "source": "https://www.lars-mueller-publishers.com/sites/default/files/2024-09/Designing-Design.png",
+    "width": 641,
+    "height": 1000,
+    "bytes": 88843,
+    "note": "Publisher front-jacket photograph; narrow left spine excluded. Printed wraparound band retained."
+  },
+  {
+    "slug": "business-thinking-for-designers",
+    "file": "business-thinking-for-designers-published.jpg",
+    "isbn": null,
+    "source": "https://books.thecdo.school/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MzEsInB1ciI6ImJsb2JfaWQifX0%3D--b3fbef1db9d5131995521033a301426592e2851b/bt4d_cover.png",
+    "width": 396,
+    "height": 604,
+    "bytes": 47864,
+    "note": "Complete published front cover; original aspect ratio preserved."
+  },
+  {
+    "slug": "art-of-ux",
+    "file": "art-of-ux-published.jpg",
+    "isbn": null,
+    "source": "https://artofux.com/wp-content/uploads/2024/07/Artofux-Cover.png",
+    "width": 766,
+    "height": 965,
+    "bytes": 65862,
+    "note": "Front artwork extracted from the author promotional image; backdrop excluded, no cover text removed."
+  },
+  {
+    "slug": "emotional-design",
+    "file": "emotional-design-published.jpg",
+    "isbn": "9780465051366",
+    "source": "https://covers.openlibrary.org/b/isbn/9780465051366-L.jpg?default=false",
+    "width": 326,
+    "height": 500,
+    "bytes": 40884,
+    "note": "Complete published front cover; original aspect ratio preserved."
+  },
+  {
+    "slug": "continuous-discovery-habits",
+    "file": "continuous-discovery-habits-published.jpg",
+    "isbn": "9781736633304",
+    "source": "https://covers.openlibrary.org/b/isbn/9781736633304-L.jpg?default=false",
+    "width": 333,
+    "height": 500,
+    "bytes": 33949,
+    "note": "Complete published front cover; original aspect ratio preserved."
+  }
+]

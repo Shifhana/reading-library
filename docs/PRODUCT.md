@@ -184,6 +184,7 @@ Every book should support the following fields.
 - **Author**
 - **Cover image**
 - **Status**
+- **Summary** — an editable, pre-populated paragraph shown on the Reading Garden's right-hand page. Defaults live with each book; local edits are stored separately from notes and reflections.
 
 ### Reading status values
 

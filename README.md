@@ -212,3 +212,13 @@ The live site URL will be added here after V1 is deployed.
 The Reading Library may eventually become part of a broader personal portfolio website, alongside work, writing, experiments, photography, and other personal projects.
 
 For now, it should remain a small, useful standalone product first.
+
+## Reading Garden notes
+
+Click a shelf book once: it lifts, holds the cover for one second and automatically opens. Close book or Escape closes and returns it to its exact shelf position, without a separate return action. Reduced motion skips the large movements while retaining the cover pause and automatic sequence.
+
+The first spread shows book metadata on the left and editable What I remember / My notes sections on the right. Use Add / Edit, Save, Cancel and Delete directly on the paper. Clear asks for confirmation. Notes retain an optional heading. Previous/next controls retain the dedicated reflection and notes spreads. Book titles, authors, status and date read remain library data.
+
+Notes are stored in localStorage under reading-garden:note:v1:<book-slug>; reflections use reading-garden:reflection:v1:<book-slug>. Existing saved notes remain compatible. Each field is independent. Existing library content is the initial content until a local save or clear. Content stays in this browser and origin; it is not synced, backed up to the repository or shared across devices. Clearing browser storage removes local edits. Save before leaving; navigation/closing within the book is paused during editing and refresh warns about the draft. Arrow keys move the text caret while editing. Cancel returns to reading without saving.
+
+Run note and existing tests with `node --experimental-strip-types --test tests/*.test.mjs`.

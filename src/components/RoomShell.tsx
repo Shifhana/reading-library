@@ -1,7 +1,14 @@
 import { useState, type CSSProperties } from 'react'
 import { useEnvironment } from '../environment/useEnvironment'
 import { EnvironmentLayers, EnvironmentDisplay } from '../environment/ReadingEnvironment'
-import photorealisticRoom from '../assets/reading-garden-neutral-v21.png'
+import photorealisticRoom from '../assets/reading-garden-complete-neutral-v22.png'
+import cleanPlate from '../assets/reading-garden-clean-plate-v23.png'
+import { CompactShelves, ShelfCleanup } from './CompactShelves'
+import { MicrocementFloor } from './MicrocementFloor'
+import { ArchitecturalMaterials } from './ArchitecturalMaterials'
+import { ReadingBreeze } from './ReadingBreeze'
+import { WindChime } from './WindChime'
+import { RightEdgePlanting } from './RightEdgePlanting'
 import { RoomBookInteractions } from './RoomBookInteractions'
 import './RoomShell.css'
 
@@ -354,12 +361,12 @@ export function RoomShell() {
       className="room-shell"
       data-environment={environment.atmosphere.time}
       style={{ '--environment-book-brightness': environment.atmosphere.bookBrightness } as CSSProperties}
-      viewBox="0 0 1855 848"
-      preserveAspectRatio="xMidYMid slice"
+      viewBox="0 0 1886 834"
+      preserveAspectRatio="xMidYMid meet"
       role="group"
-      aria-labelledby="room-title room-description"
+      aria-label="The Reading Garden"
+      aria-describedby="room-description"
     >
-      <title id="room-title">The Reading Garden</title>
       <desc id="room-description">
         An intimate library interior viewed from an offset eye-level position.
         A shorter glazed wall on the left meets a closer warm plaster rear wall.
@@ -369,7 +376,7 @@ export function RoomShell() {
         and a shorter foreground shelf to the right. Sloping display faces,
         retaining ledges and shaped end panels give each piece physical depth.
         Face-out books with quiet neutral covers lean against each sloped
-        display: eight on the central shelf, four at the rear, and five in
+        display: ten on the central shelf, five at the rear, and five in
         the foreground. Varied sizes and small groups leave space between books.
         Soft daylight enters from the left glazing, with diffuse foliage shadows
         and gentle contact shadows grounding the shelves and books.
@@ -381,6 +388,9 @@ export function RoomShell() {
         The integrated masonry sitting edge grounds the boundary beneath a modest canopy.
       </desc>
 
+      {/* Keep the existing scene coordinates, but display the complete photograph
+          at its native aspect ratio. Books and projected light share this map. */}
+      <g transform={`scale(${1886 / 2019} ${834 / 848})`}>
       {/* Accepted material finishes stay separate from the daylight layers.
           Seeded grain is still; neither materials nor light displace geometry. */}
         <defs>
@@ -541,15 +551,25 @@ export function RoomShell() {
         href={photorealisticRoom}
         className="environment-fade"
         style={{ filter: `brightness(${environment.atmosphere.exposure}) contrast(${environment.atmosphere.contrast}) sepia(${environment.atmosphere.warmth})` }}
-        width="1855"
+        width="2019"
         height="848"
         preserveAspectRatio="none"
         onLoad={() => setRenderLoaded(true)}
         onError={() => setRenderLoaded(false)}
       />
-      <EnvironmentLayers environment={environment} image={photorealisticRoom} />
-      <EnvironmentDisplay environment={environment} />
-      {renderLoaded && <RoomBookInteractions image={photorealisticRoom} />}
+      <ArchitecturalMaterials image={photorealisticRoom} filter={`brightness(${environment.atmosphere.exposure}) contrast(${environment.atmosphere.contrast}) sepia(${environment.atmosphere.warmth})`} />
+      <ShelfCleanup filter={`brightness(${environment.atmosphere.exposure}) contrast(${environment.atmosphere.contrast}) sepia(${environment.atmosphere.warmth})`} />
+      <MicrocementFloor filter={`brightness(${environment.atmosphere.exposure}) contrast(${environment.atmosphere.contrast}) sepia(${environment.atmosphere.warmth})`} />
+      <CompactShelves time={environment.atmosphere.time} filter={`brightness(${environment.atmosphere.exposure}) contrast(${environment.atmosphere.contrast}) sepia(${environment.atmosphere.warmth})`} />
+      <EnvironmentLayers environment={environment} image={cleanPlate} />
+      <RightEdgePlanting atmosphere={environment.atmosphere} />
+      <WindChime atmosphere={environment.atmosphere} />
+      <ReadingBreeze atmosphere={environment.atmosphere} clockHour={environment.clockHour} clockLabel={environment.clock} clockPreview={environment.preview}
+        timeMode={environment.timeMode} onCycleTime={environment.cycleTime} />
+      {/* Temporary artwork study: time simulation and preview remain active. */}
+      <EnvironmentDisplay environment={environment} showClock={false} />
+      {renderLoaded && <RoomBookInteractions />}
+      </g>
     </svg>
   )
 }

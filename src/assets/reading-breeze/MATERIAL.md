@@ -1,0 +1,9 @@
+# Reading Breeze material asset
+
+`fine-lattice-v2.png` is the active material, generated with the built-in image generation tool (not the API/CLI). The original PNG and its alpha are preserved. `fine-cane-v1.png` is the unused earlier close-weave study.
+
+The renderer dyes the photographed strand luminance in parchment, sage and clay, without flattening the crossing detail. Four mirrored 96-unit images form a seam-continuous 192-unit repeat; individual panels use different offsets. This is a fixed-camera texture approximation, not simulated fibre geometry. Openings retain native alpha. The contact shadow stays a soft solid silhouette and never projects the weave.
+
+Generation prompt:
+
+Use case: photorealistic-natural. Asset type: seamless-looking square architectural cane material photograph, straight-on orthographic. A full square sheet of exceptionally fine handcrafted open triaxial split-cane weaving: thin natural straw-coloured rattan strands in three directions, intertwined with visible over-under crossings. At least 90 to 110 tiny triangular/hexagonal interstices across the square; a fine architectural cane screen viewed from about 1 metre, NOT a close-up coarse basket, NOT thick square checkerboard fabric. Thin strands occupy about 75 percent area, tiny open interstices about 25 percent. Show subtle longitudinal fibre grain, softly rounded strand edges, minute changes in natural oatmeal/honey colour, delicate weaving tension irregularities. Matte unvarnished natural cane, restrained contrast. Even diffuse neutral illumination, no cast shadow, no vignette. The tiny openings are genuinely transparent alpha; opaque cane fibres elsewhere. The sheet extends to all image edges, no frame, no border, no wall, no background, no objects, no text or watermark. This texture will be cropped into pre-existing botanical silhouettes in code; do not draw any silhouettes or leaves. High detail, tactile photographic realism, no vector graphic lines.

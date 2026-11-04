@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type MouseEvent } from 'react'
 import './App.css'
 import { BookCard } from './components/BookCard'
 import { BookDetailPage } from './components/BookDetailPage'
-import { RoomShell } from './components/RoomShell'
+import { GardenViewport } from './components/GardenViewport'
 import { books, type ReadingStatus } from './data/books'
 
 type LibraryFilter = 'All' | 'Read' | 'Unread'
@@ -168,7 +168,7 @@ function App() {
   return (
     <div className="site-shell room-study">
       <main tabIndex={-1} aria-label="Architectural room exploration">
-        <RoomShell />
+        <GardenViewport />
       </main>
       {/* Step 1 isolates the room; retain the existing library and its logic. */}
       <div hidden>

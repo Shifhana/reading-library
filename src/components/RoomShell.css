@@ -9,7 +9,13 @@
   height: 100svh;
 }
 
-/* Uniform SVG scaling preserves the camera; narrow-screen composition is deferred. */
+/* The unused frame should recede with the scene at night. */
+.room-shell[data-environment='night'] {
+  background: #191b19;
+}
+
+/* Fit the complete photograph at its native aspect ratio. All three shelves
+   stay in frame; the shared scene map keeps books and lighting registered. */
 .room-ceiling {
   fill: #faf9f5;
 }
@@ -237,7 +243,7 @@
   opacity: 0;
 }
 
-.room-book:has(:focus-visible) .room-book-motion {
+.room-book:has(.room-book-target:enabled:focus-visible) .room-book-motion {
   transform: translateY(calc(-1 * var(--book-lift))) scale(1.025);
   filter: drop-shadow(1px 3px var(--book-shadow) rgb(55 40 25 / 28%));
 }
@@ -249,7 +255,7 @@
 }
 
 @media (hover: hover) {
-  .room-book:hover .room-book-motion {
+  .room-book:has(.room-book-target:enabled:hover) .room-book-motion {
     transform: translateY(calc(-1 * var(--book-lift))) scale(1.025);
     filter: drop-shadow(1px 3px var(--book-shadow) rgb(55 40 25 / 28%));
   }
@@ -260,9 +266,43 @@
   }
 }
 
+.room-book-tooltip {
+  opacity: 0;
+  overflow: visible;
+  pointer-events: none;
+  transition: opacity 160ms ease;
+}
+.room-book-tooltip-position {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 100%;
+}
+.room-book-tooltip span {
+  box-sizing: border-box;
+  max-width: 100%;
+  padding: 4px 9px;
+  border-radius: 3px;
+  background: #f6edda;
+  color: #4c4032;
+  box-shadow: 0 2px 5px rgb(55 40 25 / 13%);
+  font: 400 16px/1.25 var(--font-serif, Georgia, serif);
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.room-book:has(.room-book-target:enabled:focus-visible) .room-book-tooltip {
+  opacity: 1;
+}
+@media (hover: hover) and (pointer: fine) {
+  .room-book:has(.room-book-target:enabled:hover) .room-book-tooltip {
+    opacity: 1;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .room-book-tooltip { transition: none; }
   .room-book .room-book-motion {
-    transform: none;
+    transform: none !important;
     transition: none;
   }
 }
@@ -379,3 +419,135 @@
   }
   .room-book-controls { transition: none; }
 }
+
+/* Held books use screen coordinates outside the room SVG/crop. */
+.focused-book-layer { position: fixed; inset: 0; z-index: 100; isolation: isolate; }
+.focused-book-backdrop { position: absolute; inset: 0; background: rgb(31 29 24 / 14%); transition: opacity 500ms ease, background-color 900ms ease; }
+.focused-book-backdrop[data-returning] { opacity: 0; }
+.focused-book-canvas { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
+.focused-book-open { position: absolute; }
+.focused-book-controls { position: absolute; left: 50%; transform: translateX(-50%); width: max-content; max-width: calc(100vw - 24px); font-size: 12px; background: transparent; }
+.focused-book-controls button:disabled { opacity: .35; cursor: default; }
+@media (prefers-reduced-motion: reduce) { .focused-book-backdrop { transition: none; } }
+
+/* The open canvas is screen-space; room framing and shelf poses stay intact. */
+.focused-book-backdrop[data-reading] { background: rgb(31 29 24 / 22%); }
+.reading-pages {
+  position: absolute;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  color: #423a2e;
+  transition: opacity 150ms ease;
+}
+.reading-pages[data-single-page] { display: block; overflow: auto; scrollbar-width: thin; }
+.reading-pages[data-single-page] .reading-page { overflow: visible; }
+.reading-pages[data-turning] { opacity: 0; pointer-events: none; }
+.reading-page {
+  min-height: 0;
+  min-width: 0;
+  padding: 7% 10% 12% 9%;
+  overflow: auto;
+  scrollbar-width: thin;
+  font-family: var(--font-serif);
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.65;
+}
+.reading-page-right { padding-inline: 10% 9%; }
+.reading-running-head {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: .04em;
+  color: #776c5b;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgb(113 95 66 / 15%);
+}
+.reading-page-content { max-width: 52ch; margin: 12% auto 0; }
+.reading-section-label { font: 11px/1.5 var(--font-sans); letter-spacing: .1em; text-transform: uppercase; color: #786b57; margin: 0 0 18px; }
+.reading-page h2 { font: 400 clamp(24px, 2.7vw, 42px)/1.2 var(--font-serif); margin: 0 0 20px; overflow-wrap: anywhere; }
+.reading-author { font-size: .95em; color: #746751; margin: 0; }
+.focused-book-controls[data-reading] {
+  font-size: 13px;
+  padding: 2px 10px;
+  border-radius: 20px;
+  background: rgb(244 237 224 / 85%);
+}
+@media (max-width: 719px) {
+  .reading-page { padding: 9% 10% 15%; }
+  .reading-page h2 { font-size: clamp(22px, 6vw, 32px); }
+}
+@media (prefers-reduced-motion: reduce) { .reading-pages { transition: none; } }
+
+.book-notes { margin-top: 28px; }
+.reading-page-right .book-notes { margin-top: 0; }
+.reading-page-right .book-notes + .book-notes { margin-top: 36px; padding-top: 24px; border-top: 1px solid rgb(113 95 66 / 15%); }
+.book-notes h3 { font: 400 24px/1.3 var(--font-serif); margin: 0 0 20px; }
+.book-notes h4 { font: 400 20px/1.4 var(--font-serif); margin: 0 0 12px; overflow-wrap: anywhere; }
+.book-note-body { white-space: pre-wrap; overflow-wrap: anywhere; }
+.book-note-empty { color: #776b58; font-style: italic; }
+.book-notes label { display: block; font: 12px/1.5 var(--font-sans); margin: 0 0 16px; }
+.book-notes label span { color: #776b58; }
+.book-notes input, .book-notes textarea { display: block; box-sizing: border-box; width: 100%; margin-top: 7px; border: 0; border-bottom: 1px solid #b5a88f; border-radius: 0; padding: 8px 2px; background: rgb(255 255 255 / 12%); color: #423a2e; font: 17px/1.65 var(--font-serif); }
+.book-notes textarea { min-height: 180px; resize: vertical; }
+.book-note-actions { display: flex; gap: 18px; flex-wrap: wrap; align-items: center; font: 12px/1.5 var(--font-sans); margin-top: 18px; }
+.book-note-actions button { border: 0; border-bottom: 1px solid #9e8c6c; padding: 5px 0; background: transparent; color: #51432f; cursor: pointer; font: inherit; }
+.book-note-actions button:disabled { opacity: .4; cursor: default; }
+.book-notes :is(button, input, textarea):focus-visible { outline: 2px solid #6c745e; outline-offset: 3px; }
+.book-note-hint { color: #776b58; font: 11px/1.6 var(--font-sans); margin-top: 15px; }
+
+/* Reading surface: controls belong to the paper, not a toolbar. */
+.reading-page, .reading-pages[data-single-page] { overflow: hidden; }
+.reading-pages[data-single-page] .reading-page { height: 100%; box-sizing: border-box; overflow: hidden; }
+.reading-page { position: relative; box-sizing: border-box; padding: 5% 8% 9%; font-size: 16px; line-height: 1.65; }
+.reading-page[data-hidden] { display: none; }
+.reading-page:has([data-editing]) { overflow-y: auto; }
+.reading-running-head { border: 0; padding-bottom: 0; font-size: 10px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.reading-page-content { margin-top: 22px; }
+.reading-page h2 { font-size: clamp(20px, 2vw, 28px); margin-bottom: 8px; }
+.reading-author { font-size: 13px; }
+.book-notes { position: relative; margin-top: 24px; }
+.book-notes h3 { font-size: 21px; margin-bottom: 12px; }
+.book-notes h4 { font-size: 17px; margin-bottom: 8px; }
+.book-note-body { margin: 0; }
+.book-note-invitation { border: 0; padding: 0; background: none; color: #776b58; font: italic 16px/1.65 var(--font-serif); text-align: left; cursor: text; }
+.book-note-reveal { opacity: 0; transition: opacity 160ms ease; margin-top: 8px; }
+.book-notes:hover .book-note-reveal, .book-notes:focus-within .book-note-reveal { opacity: 1; }
+.book-note-hint:empty { display: none; }
+.book-note-actions { gap: 14px; }
+.book-notes textarea { min-height: 110px; max-height: 35vh; resize: vertical; }
+.focused-book-controls[data-reading], .focused-book-controls { background: none; padding: 0; }
+.focused-book-controls .room-book-return { padding: 0 10px; min-width: 36px; border: 0; background: none; font: 24px/1.2 Georgia, serif; color: #514a3c; box-shadow: none; }
+.book-cover-target { position: absolute; border: 0; background: transparent; cursor: pointer; }
+.book-cover-target:focus-visible { outline: 1px solid #ad9a76; outline-offset: 4px; }
+.book-page-edge { position: absolute; top: 5%; bottom: 5%; width: 36px; padding: 0; border: 0; background: transparent; cursor: grab; touch-action: none; z-index: 2; }
+.book-page-edge-left { left: 0; }
+.book-page-edge-right { right: 0; }
+.book-page-edge:active { cursor: grabbing; }
+.book-page-edge:disabled { pointer-events: none; }
+.book-page-edge span { position: absolute; inset: 0 5px; opacity: 0; border-radius: 45% 15% 15% 45%; background: linear-gradient(90deg, transparent, #e1d2b74d, #fff8e7a6); box-shadow: -3px 1px 5px #55452b17; transition: opacity 180ms, transform 180ms; }
+.book-page-edge-left span { transform: scaleX(-1); }
+.book-page-edge:not(:disabled):is(:hover, :focus-visible, :active) span { opacity: 1; }
+.book-page-edge:focus-visible { outline: 1px solid #807154; outline-offset: 2px; }
+.book-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+@media (hover: none) { .book-note-reveal { opacity: .7; } }
+@media (prefers-reduced-motion: reduce) { .book-page-edge span, .book-note-reveal { transition: none; } }
+
+/* A quiet notebook: the title and an immediately writable paper surface. */
+.reading-writing-page {
+  display: flex; flex-direction: column;
+  /* Reserve a real footer above the folio, including in short viewports. */
+  padding-block: clamp(24px, 4vh, 48px) clamp(64px, 11vh, 96px);
+}
+.reading-writing-page .reading-page-content { display: flex; flex: 1; min-height: 0; width: 100%; max-width: none; margin: 24px 0 0; }
+.book-writing { display: flex; flex-direction: column; flex: 1; min-width: 0; min-height: 0; }
+.book-writing-surface {
+  display: block; flex: 1; min-height: 0; width: 100%; box-sizing: border-box;
+  resize: none; border: 0; border-radius: 0; padding: 0 4px 12px 0; margin: 0;
+  background: transparent; color: #423a2e; caret-color: #423a2e;
+  font: 17px/1.7 var(--font-serif); outline: none; scrollbar-width: thin;
+}
+.book-writing-surface:focus-visible { outline: none; }
+.reading-writing-page:has(.book-writing-surface:focus-visible) .reading-running-head {
+  color: #514a3c; text-decoration: underline; text-decoration-color: #a99d86; text-underline-offset: 5px;
+}
+.book-writing-error { margin: 10px 0 0; color: #815039; font: 12px/1.5 var(--font-sans); }

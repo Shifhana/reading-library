@@ -1,0 +1,67 @@
+.mobile-garden {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  align-items: center;
+  min-height: 100svh;
+  overflow: hidden;
+  padding: max(11rem, env(safe-area-inset-top)) max(2rem, env(safe-area-inset-right)) max(9rem, env(safe-area-inset-bottom)) max(2rem, env(safe-area-inset-left));
+  color: #4b493e;
+  background:
+    linear-gradient(120deg, transparent 14%, #fffaf047 27%, transparent 44%),
+    radial-gradient(ellipse at 100% 0%, #fffcf0 0%, transparent 65%),
+    linear-gradient(155deg, #efe7d8, #f4eee3 58%, #e8dfcf);
+}
+
+.mobile-garden-copy {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 21rem);
+  margin: 0 auto;
+}
+
+.mobile-garden-copy h1 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(1.9rem, 7.6vw, 2.55rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+
+.mobile-garden-copy p {
+  max-width: 17rem;
+  margin: 1.5rem 0 0;
+  color: #716c5e;
+  font-size: .9375rem;
+  line-height: 1.7;
+  text-wrap: pretty;
+}
+
+.mobile-garden-chimes {
+  position: absolute;
+  top: calc(env(safe-area-inset-top) - 1.25rem);
+  right: max(1%, env(safe-area-inset-right));
+  width: 9rem;
+  height: 10.8rem;
+  opacity: .74;
+  pointer-events: none;
+}
+
+.mobile-garden-weave {
+  position: absolute;
+  left: -2.75rem;
+  bottom: -4.5rem;
+  width: 15rem;
+  height: 13rem;
+  opacity: .43;
+  filter: saturate(.5) drop-shadow(3px 4px 3px #75685218);
+  pointer-events: none;
+}
+
+/* Only the phone fragment opts out of the desktop room's viewport staging. */
+@media (max-width: 599.98px) {
+  .room-study:has(.mobile-garden) { display: block; min-height: 100svh; }
+  .room-study:has(.mobile-garden) > main { width: 100%; }
+}

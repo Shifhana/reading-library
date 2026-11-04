@@ -5,17 +5,18 @@ export function timeStateAt(hour: number): TimeName {
   const h = ((hour % 24) + 24) % 24
   return h >= 6 && h < 11 ? 'morning' : h >= 11 && h < 16 ? 'afternoon' : h >= 16 && h < 19 ? 'evening' : 'night'
 }
-// Diffuse daylight keeps the photograph's material and contact shading intact.
-// No projected foliage graphic or wall/floor overlay is used.
+// Ambient exposure stays restrained beneath the separate directional daylight.
+// The neutral photograph retains material texture and baked contact shading.
 const visuals = {
-  morning: { exposure: .98, contrast: 1.02, warmth: .03, exterior: .98 },
-  afternoon: { exposure: 1.03, contrast: 1.04, warmth: 0, exterior: 1.02 },
+  morning: { exposure: .97, contrast: 1.05, warmth: .04, exterior: 1.01 },
+  afternoon: { exposure: 1.01, contrast: 1.06, warmth: 0, exterior: 1.03 },
   evening: { exposure: .86, contrast: 1.03, warmth: .16, exterior: .72 },
-  night: { exposure: .36, contrast: 1.04, warmth: 0, exterior: .13 },
+  night: { exposure: .52, contrast: 1.02, warmth: .04, exterior: .18 },
 }
 export function atmosphereAt(hour: number) {
   const time = timeStateAt(hour)
-  return { time, ...visuals[time], bookBrightness: visuals[time].exposure }
+  // A small amount of interior bounce keeps book forms readable at night.
+  return { time, ...visuals[time], bookBrightness: time === 'night' ? .74 : visuals[time].exposure }
 }
 
 export function classifyWeather(code: number): { kind: WeatherKind | null; label: string } {
