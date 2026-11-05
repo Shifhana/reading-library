@@ -1,0 +1,886 @@
+[
+  {
+    "id": "room-book-design-for-how-people-think",
+    "slug": "design-for-how-people-think",
+    "record": {
+      "slug": "design-for-how-people-think",
+      "title": "Design for how people think",
+      "author": "Steve Krug",
+      "coverImage": "/covers/design-for-how-people-think-placeholder.jpg",
+      "status": "Currently reading"
+    },
+    "shelf": "rear",
+    "corners": [
+      [
+        923.0198815588045,
+        373.92
+      ],
+      [
+        958.0198815588045,
+        373.92
+      ],
+      [
+        955.5,
+        426.92
+      ],
+      [
+        920.5,
+        426.92
+      ]
+    ],
+    "colour": "#917867",
+    "thickness": 0.038,
+    "shelfThickness": 0.032299999999999995,
+    "bottom": 426.92,
+    "top": 373.92,
+    "left": 920.5,
+    "width": 37.519881558804514,
+    "height": 53,
+    "center": 938,
+    "label": "Design for how people think on the rear shelf",
+    "returnLabel": "Return Design for how people think to the rear shelf",
+    "outline": "923.0198815588045,373.92 958.0198815588045,373.92 955.5,426.92 920.5,426.92"
+  },
+  {
+    "id": "room-book-user-friendly",
+    "slug": "user-friendly",
+    "record": {
+      "slug": "user-friendly",
+      "title": "User Friendly",
+      "author": "Robert Fabricant, Cliff Kuang",
+      "coverImage": "/covers/user-friendly-placeholder.jpg",
+      "status": "Unread"
+    },
+    "shelf": "rear",
+    "corners": [
+      [
+        968.551366207136,
+        368.32
+      ],
+      [
+        1004.4059116616813,
+        368.32
+      ],
+      [
+        999.9272727272727,
+        426.32
+      ],
+      [
+        964.0727272727273,
+        426.32
+      ]
+    ],
+    "colour": "#d3beaf",
+    "thickness": 0.046,
+    "shelfThickness": 0.039099999999999996,
+    "bottom": 426.32,
+    "top": 368.32,
+    "left": 964.0727272727273,
+    "width": 40.33318438895401,
+    "height": 58,
+    "center": 982,
+    "label": "User Friendly on the rear shelf",
+    "returnLabel": "Return User Friendly to the rear shelf",
+    "outline": "968.551366207136,368.32 1004.4059116616813,368.32 999.9272727272727,426.32 964.0727272727273,426.32"
+  },
+  {
+    "id": "room-book-dont-make-me-think-revisited",
+    "slug": "dont-make-me-think-revisited",
+    "record": {
+      "slug": "dont-make-me-think-revisited",
+      "title": "Don't Make Me Think, Revisited",
+      "author": "Steve Krug",
+      "coverImage": "/covers/dont-make-me-think-revisited-placeholder.jpg",
+      "status": "Read",
+      "dateRead": "2025-02-19"
+    },
+    "shelf": "rear",
+    "corners": [
+      [
+        1011.702778626454,
+        378.92
+      ],
+      [
+        1046.5263080382188,
+        378.92
+      ],
+      [
+        1044.4117647058824,
+        426.92
+      ],
+      [
+        1009.5882352941177,
+        426.92
+      ]
+    ],
+    "colour": "#5a594b",
+    "thickness": 0.031,
+    "shelfThickness": 0.02635,
+    "bottom": 426.92,
+    "top": 378.92,
+    "left": 1009.5882352941177,
+    "width": 36.93807274410108,
+    "height": 48,
+    "center": 1027,
+    "label": "Don't Make Me Think, Revisited on the rear shelf",
+    "returnLabel": "Return Don't Make Me Think, Revisited to the rear shelf",
+    "outline": "1011.702778626454,378.92 1046.5263080382188,378.92 1044.4117647058824,426.92 1009.5882352941177,426.92"
+  },
+  {
+    "id": "room-book-lean-ux-applying-lean-principles-to-improve-user-experience",
+    "slug": "lean-ux-applying-lean-principles-to-improve-user-experience",
+    "record": {
+      "slug": "lean-ux-applying-lean-principles-to-improve-user-experience",
+      "title": "Lean UX: Applying Lean Principles to Improve User Experience",
+      "author": "Josh Seiden, Jeff Gothelf",
+      "coverImage": "/covers/lean-ux-placeholder.jpg",
+      "status": "Unread"
+    },
+    "shelf": "rear",
+    "corners": [
+      [
+        1058.481250860701,
+        372.42
+      ],
+      [
+        1093.481250860701,
+        372.42
+      ],
+      [
+        1089.5,
+        426.42
+      ],
+      [
+        1054.5,
+        426.42
+      ]
+    ],
+    "colour": "#845759",
+    "thickness": 0.042,
+    "shelfThickness": 0.0357,
+    "bottom": 426.42,
+    "top": 372.42,
+    "left": 1054.5,
+    "width": 38.98125086070104,
+    "height": 54,
+    "center": 1072,
+    "label": "Lean UX: Applying Lean Principles to Improve User Experience on the rear shelf",
+    "returnLabel": "Return Lean UX: Applying Lean Principles to Improve User Experience to the rear shelf",
+    "outline": "1058.481250860701,372.42 1093.481250860701,372.42 1089.5,426.42 1054.5,426.42"
+  },
+  {
+    "id": "room-book-articulating-design-decisions",
+    "slug": "articulating-design-decisions",
+    "record": {
+      "slug": "articulating-design-decisions",
+      "title": "Articulating Design Decisions",
+      "author": "Tom Greever",
+      "coverImage": "/covers/articulating-design-decisions-placeholder.jpg",
+      "status": "Unread"
+    },
+    "shelf": "rear",
+    "corners": [
+      [
+        1104.6292544433343,
+        367.92
+      ],
+      [
+        1145.71854015762,
+        367.92
+      ],
+      [
+        1140.544642857143,
+        426.92
+      ],
+      [
+        1099.455357142857,
+        426.92
+      ]
+    ],
+    "colour": "#ac9585",
+    "thickness": 0.035,
+    "shelfThickness": 0.029750000000000002,
+    "bottom": 426.92,
+    "top": 367.92,
+    "left": 1099.455357142857,
+    "width": 46.263183014762944,
+    "height": 59,
+    "center": 1120,
+    "label": "Articulating Design Decisions on the rear shelf",
+    "returnLabel": "Return Articulating Design Decisions to the rear shelf",
+    "outline": "1104.6292544433343,367.92 1145.71854015762,367.92 1140.544642857143,426.92 1099.455357142857,426.92"
+  },
+  {
+    "id": "room-book-sprint-how-to-solve-big-problems-and-test-new-ideas-in-just-five-days",
+    "slug": "sprint-how-to-solve-big-problems-and-test-new-ideas-in-just-five-days",
+    "record": {
+      "slug": "sprint-how-to-solve-big-problems-and-test-new-ideas-in-just-five-days",
+      "title": "Sprint How to Solve Big Problems and Test New Ideas in Just Five Days",
+      "author": "Jake Knap",
+      "coverImage": "/covers/sprint-placeholder.jpg",
+      "status": "Read",
+      "dateRead": "2025-02-06"
+    },
+    "shelf": "middle",
+    "corners": [
+      [
+        291.0556334532289,
+        498.51
+      ],
+      [
+        334.44024883784425,
+        498.51
+      ],
+      [
+        337.6923076923077,
+        558.51
+      ],
+      [
+        294.3076923076923,
+        558.51
+      ]
+    ],
+    "colour": "#4b595d",
+    "thickness": 0.051,
+    "shelfThickness": 0.051,
+    "bottom": 558.51,
+    "top": 498.51,
+    "left": 291.0556334532289,
+    "width": 46.636674239078786,
+    "height": 60,
+    "center": 316,
+    "label": "Sprint How to Solve Big Problems and Test New Ideas in Just Five Days on the middle shelf",
+    "returnLabel": "Return Sprint How to Solve Big Problems and Test New Ideas in Just Five Days to the middle shelf",
+    "outline": "291.0556334532289,498.51 334.44024883784425,498.51 337.6923076923077,558.51 294.3076923076923,558.51"
+  },
+  {
+    "id": "room-book-art-of-innovation",
+    "slug": "art-of-innovation",
+    "record": {
+      "slug": "art-of-innovation",
+      "title": "art of innovation",
+      "author": "",
+      "coverImage": "/covers/art-of-innovation-placeholder.jpg",
+      "status": "Read"
+    },
+    "shelf": "middle",
+    "corners": [
+      [
+        346.0340097992054,
+        485.90999999999997
+      ],
+      [
+        396.4340097992054,
+        485.90999999999997
+      ],
+      [
+        398.2,
+        557.91
+      ],
+      [
+        347.8,
+        557.91
+      ]
+    ],
+    "colour": "#e3d2c7",
+    "thickness": 0.033,
+    "shelfThickness": 0.033,
+    "bottom": 557.91,
+    "top": 485.90999999999997,
+    "left": 346.0340097992054,
+    "width": 52.16599020079457,
+    "height": 72,
+    "center": 373,
+    "label": "art of innovation on the middle shelf",
+    "returnLabel": "Return art of innovation to the middle shelf",
+    "outline": "346.0340097992054,485.90999999999997 396.4340097992054,485.90999999999997 398.2,557.91 347.8,557.91"
+  },
+  {
+    "id": "room-book-atomic-design",
+    "slug": "atomic-design",
+    "record": {
+      "slug": "atomic-design",
+      "title": "Atomic Design",
+      "author": "Brad Frost",
+      "coverImage": "/covers/atomic-design-placeholder.jpg",
+      "status": "Unread"
+    },
+    "shelf": "middle",
+    "corners": [
+      [
+        426.0252715022803,
+        495.51
+      ],
+      [
+        476.0252715022803,
+        495.51
+      ],
+      [
+        479,
+        558.51
+      ],
+      [
+        429,
+        558.51
+      ]
+    ],
+    "colour": "#a06f76",
+    "thickness": 0.038,
+    "shelfThickness": 0.038,
+    "bottom": 558.51,
+    "top": 495.51,
+    "left": 426.0252715022803,
+    "width": 52.974728497719695,
+    "height": 63,
+    "center": 454,
+    "label": "Atomic Design on the middle shelf",
+    "returnLabel": "Return Atomic Design to the middle shelf",
+    "outline": "426.0252715022803,495.51 476.0252715022803,495.51 479,558.51 429,558.51"
+  },
+  {
+    "id": "room-book-designing-interactions",
+    "slug": "designing-interactions",
+    "record": {
+      "slug": "designing-interactions",
+      "title": "Designing Interactions",
+      "author": "Bill Moggridge",
+      "coverImage": "/covers/designing-interactions-placeholder.jpg",
+      "status": "Unread"
+    },
+    "shelf": "middle",
+    "corners": [
+      [
+        487.5303439597665,
+        488.71000000000004
+      ],
+      [
+        534.5303439597666,
+        488.71000000000004
+      ],
+      [
+        535.5,
+        557.71
+      ],
+      [
+        488.5,
+        557.71
+      ]
+    ],
+    "colour": "#a1897a",
+    "thickness": 0.046,
+    "shelfThickness": 0.046,
+    "bottom": 557.71,
+    "top": 488.71000000000004,
+    "left": 487.5303439597665,
+    "width": 47.969656040233474,
+    "height": 69,
+    "center": 512,
+    "label": "Designing Interactions on the middle shelf",
+    "returnLabel": "Return Designing Interactions to the middle shelf",
+    "outline": "487.5303439597665,488.71000000000004 534.5303439597666,488.71000000000004 535.5,557.71 488.5,557.71"
+  },
+  {
+    "id": "room-book-about-face-the-essentials-of-interaction-design",
+    "slug": "about-face-the-essentials-of-interaction-design",
+    "record": {
+      "slug": "about-face-the-essentials-of-interaction-design",
+      "title": "About Face: The Essentials of Interaction Design",
+      "author": "",
+      "coverImage": "/covers/about-face-placeholder.jpg",
+      "status": "Unread"
+    },
+    "shelf": "middle",
+    "corners": [
+      [
+        567.6000326790062,
+        484.51
+      ],
+      [
+        623.9283908879614,
+        484.51
+      ],
+      [
+        627.1641791044776,
+        558.51
+      ],
+      [
+        570.8358208955224,
+        558.51
+      ]
+    ],
+    "colour": "#6b6a5b",
+    "thickness": 0.031,
+    "shelfThickness": 0.031,
+    "bottom": 558.51,
+    "top": 484.51,
+    "left": 567.6000326790062,
+    "width": 59.56414642547145,
+    "height": 74,
+    "center": 599,
+    "label": "About Face: The Essentials of Interaction Design on the middle shelf",
+    "returnLabel": "Return About Face: The Essentials of Interaction Design to the middle shelf",
+    "outline": "567.6000326790062,484.51 623.9283908879614,484.51 627.1641791044776,558.51 570.8358208955224,558.51"
+  },
+  {
+    "id": "room-book-universal-principles-of-ux",
+    "slug": "universal-principles-of-ux",
+    "record": {
+      "slug": "universal-principles-of-ux",
+      "title": "Universal Principles of UX",
+      "author": "",
+      "coverImage": "/covers/universal-principles-of-ux-placeholder.jpg",
+      "status": "Unread"
+    },
+    "shelf": "middle",
+    "corners": [
+      [
+        659.6785806956195,
+        496.01
+      ],
+      [
+        701.0119140289528,
+        496.01
+      ],
+      [
+        701.6666666666666,
+        558.01
+      ],
+      [
+        660.3333333333334,
+        558.01
+      ]
+    ],
+    "colour": "#decbbf",
+    "thickness": 0.042,
+    "shelfThickness": 0.042,
+    "bottom": 558.01,
+    "top": 496.01,
+    "left": 659.6785806956195,
+    "width": 41.9880859710471,
+    "height": 62,
+    "center": 681,
+    "label": "Universal Principles of UX on the middle shelf",
+    "returnLabel": "Return Universal Principles of UX to the middle shelf",
+    "outline": "659.6785806956195,496.01 701.0119140289528,496.01 701.6666666666666,558.01 660.3333333333334,558.01"
+  },
+  {
+    "id": "room-book-the-pocket-universal-principles-of-design",
+    "slug": "the-pocket-universal-principles-of-design",
+    "record": {
+      "slug": "the-pocket-universal-principles-of-design",
+      "title": "The Pocket Universal Principles of Design",
+      "author": "William Lidwell",
+      "coverImage": "/covers/the-pocket-universal-principles-of-design-placeholder.jpg",
+      "status": "Unread"
+    },
+    "shelf": "middle",
+    "corners": [
+      [
+        710.1215156400065,
+        489.51
+      ],
+      [
+        759.1215156400065,
+        489.51
+      ],
+      [
+        762.5,
+        558.51
+      ],
+      [
+        713.5,
+        558.51
+      ]
+    ],
+    "colour": "#445054",
+    "thickness": 0.035,
+    "shelfThickness": 0.035,
+    "bottom": 558.51,
+    "top": 489.51,
+    "left": 710.1215156400065,
+    "width": 52.378484359993536,
+    "height": 69,
+    "center": 738,
+    "label": "The Pocket Universal Principles of Design on the middle shelf",
+    "returnLabel": "Return The Pocket Universal Principles of Design to the middle shelf",
+    "outline": "710.1215156400065,489.51 759.1215156400065,489.51 762.5,558.51 713.5,558.51"
+  },
+  {
+    "id": "room-book-thinking-fast-and-slow",
+    "slug": "thinking-fast-and-slow",
+    "record": {
+      "slug": "thinking-fast-and-slow",
+      "title": "Thinking, Fast and Slow",
+      "author": "Daniel Kahneman",
+      "coverImage": "/covers/thinking-fast-and-slow-placeholder.jpg",
+      "status": "Unread"
+    },
+    "shelf": "middle",
+    "corners": [
+      [
+        789.7068115475518,
+        493.80999999999995
+      ],
+      [
+        836.7068115475518,
+        493.80999999999995
+      ],
+      [
+        838.5,
+        557.81
+      ],
+      [
+        791.5,
+        557.81
+      ]
+    ],
+    "colour": "#455057",
+    "thickness": 0.051,
+    "shelfThickness": 0.051,
+    "bottom": 557.81,
+    "top": 493.80999999999995,
+    "left": 789.7068115475518,
+    "width": 48.79318845244825,
+    "height": 64,
+    "center": 815,
+    "label": "Thinking, Fast and Slow on the middle shelf",
+    "returnLabel": "Return Thinking, Fast and Slow to the middle shelf",
+    "outline": "789.7068115475518,493.80999999999995 836.7068115475518,493.80999999999995 838.5,557.81 791.5,557.81"
+  },
+  {
+    "id": "room-book-inspired",
+    "slug": "inspired",
+    "record": {
+      "slug": "inspired",
+      "title": "Inspired",
+      "author": "Marty Cagan",
+      "coverImage": "/covers/inspired-placeholder.jpg",
+      "status": "Unread"
+    },
+    "shelf": "middle",
+    "corners": [
+      [
+        844.9581157962023,
+        490.51
+      ],
+      [
+        894.9581157962023,
+        490.51
+      ],
+      [
+        899,
+        558.51
+      ],
+      [
+        849,
+        558.51
+      ]
+    ],
+    "colour": "#decbc1",
+    "thickness": 0.033,
+    "shelfThickness": 0.033,
+    "bottom": 558.51,
+    "top": 490.51,
+    "left": 844.9581157962023,
+    "width": 54.041884203797736,
+    "height": 68,
+    "center": 874,
+    "label": "Inspired on the middle shelf",
+    "returnLabel": "Return Inspired to the middle shelf",
+    "outline": "844.9581157962023,490.51 894.9581157962023,490.51 899,558.51 849,558.51"
+  },
+  {
+    "id": "room-book-empowered",
+    "slug": "empowered",
+    "record": {
+      "slug": "empowered",
+      "title": "Empowered",
+      "author": "Marty Cagan",
+      "coverImage": "/covers/empowered-placeholder.jpg",
+      "status": "Unread"
+    },
+    "shelf": "middle",
+    "corners": [
+      [
+        940.5064114428919,
+        487.01
+      ],
+      [
+        992.5064114428919,
+        487.01
+      ],
+      [
+        994,
+        558.01
+      ],
+      [
+        942,
+        558.01
+      ]
+    ],
+    "colour": "#9e8677",
+    "thickness": 0.038,
+    "shelfThickness": 0.038,
+    "bottom": 558.01,
+    "top": 487.01,
+    "left": 940.5064114428919,
+    "width": 53.49358855710807,
+    "height": 71,
+    "center": 968,
+    "label": "Empowered on the middle shelf",
+    "returnLabel": "Return Empowered to the middle shelf",
+    "outline": "940.5064114428919,487.01 992.5064114428919,487.01 994,558.01 942,558.01"
+  },
+  {
+    "id": "room-book-emotional-design",
+    "slug": "emotional-design",
+    "record": {
+      "slug": "emotional-design",
+      "title": "Emotional Design",
+      "author": "Don Norman",
+      "coverImage": "/covers/emotional-design-placeholder.jpg",
+      "status": "Unread"
+    },
+    "shelf": "foreground",
+    "corners": [
+      [
+        1057.608942276373,
+        659.38
+      ],
+      [
+        1137.6730263530226,
+        659.38
+      ],
+      [
+        1138.0320420383248,
+        762.23
+      ],
+      [
+        1057.9679579616752,
+        762.23
+      ]
+    ],
+    "colour": "#616254",
+    "thickness": 0.046,
+    "shelfThickness": 0.046,
+    "bottom": 762.23,
+    "top": 659.38,
+    "left": 1057.608942276373,
+    "width": 80.42309976195179,
+    "height": 102.85000000000001,
+    "center": 1098,
+    "label": "Emotional Design on the foreground shelf",
+    "returnLabel": "Return Emotional Design to the foreground shelf",
+    "outline": "1057.608942276373,659.38 1137.6730263530226,659.38 1138.0320420383248,762.23 1057.9679579616752,762.23"
+  },
+  {
+    "id": "room-book-continuous-discovery-habits",
+    "slug": "continuous-discovery-habits",
+    "record": {
+      "slug": "continuous-discovery-habits",
+      "title": "Continuous Discovery Habits",
+      "author": "Teresa Torres",
+      "coverImage": "/covers/continuous-discovery-habits-placeholder.jpg",
+      "status": "Unread"
+    },
+    "shelf": "foreground",
+    "corners": [
+      [
+        1153.1711109886885,
+        652.4350000000001
+      ],
+      [
+        1239.4016812004963,
+        652.4350000000001
+      ],
+      [
+        1239.115285105904,
+        761.83
+      ],
+      [
+        1152.884714894096,
+        761.83
+      ]
+    ],
+    "colour": "#926162",
+    "thickness": 0.031,
+    "shelfThickness": 0.031,
+    "bottom": 761.83,
+    "top": 652.4350000000001,
+    "left": 1152.884714894096,
+    "width": 86.51696630640026,
+    "height": 109.39500000000001,
+    "center": 1196,
+    "label": "Continuous Discovery Habits on the foreground shelf",
+    "returnLabel": "Return Continuous Discovery Habits to the foreground shelf",
+    "outline": "1153.1711109886885,652.4350000000001 1239.4016812004963,652.4350000000001 1239.115285105904,761.83 1152.884714894096,761.83"
+  },
+  {
+    "id": "room-book-artiom-dashinsky-bundle",
+    "slug": "artiom-dashinsky-bundle",
+    "record": {
+      "slug": "artiom-dashinsky-bundle",
+      "title": "Artiom dashinsky (bundle)",
+      "author": "",
+      "coverImage": "/covers/artiom-dashinsky-bundle-placeholder.jpg",
+      "status": "Unread"
+    },
+    "shelf": "foreground",
+    "corners": [
+      [
+        1265.3616928377578,
+        663.12
+      ],
+      [
+        1350.2923476466276,
+        663.12
+      ],
+      [
+        1350.465327404435,
+        762.23
+      ],
+      [
+        1265.534672595565,
+        762.23
+      ]
+    ],
+    "colour": "#746c5e",
+    "thickness": 0.042,
+    "shelfThickness": 0.042,
+    "bottom": 762.23,
+    "top": 663.12,
+    "left": 1265.3616928377578,
+    "width": 85.1036345666771,
+    "height": 99.11,
+    "center": 1308,
+    "label": "Artiom dashinsky (bundle) on the foreground shelf",
+    "returnLabel": "Return Artiom dashinsky (bundle) to the foreground shelf",
+    "outline": "1265.3616928377578,663.12 1350.2923476466276,663.12 1350.465327404435,762.23 1265.534672595565,762.23"
+  },
+  {
+    "id": "room-book-business-thinking-for-designers",
+    "slug": "business-thinking-for-designers",
+    "record": {
+      "slug": "business-thinking-for-designers",
+      "title": "Business Thinking for Designers",
+      "author": "Ryan Rumsey",
+      "coverImage": "/covers/business-thinking-for-designers-placeholder.jpg",
+      "status": "Unread"
+    },
+    "shelf": "foreground",
+    "corners": [
+      [
+        1368.4043259159914,
+        654.105
+      ],
+      [
+        1452.5340126780004,
+        654.105
+      ],
+      [
+        1452.0648433810045,
+        761.63
+      ],
+      [
+        1367.9351566189955,
+        761.63
+      ]
+    ],
+    "colour": "#c0b29d",
+    "thickness": 0.035,
+    "shelfThickness": 0.035,
+    "bottom": 761.63,
+    "top": 654.105,
+    "left": 1367.9351566189955,
+    "width": 84.5988560590049,
+    "height": 107.525,
+    "center": 1410,
+    "label": "Business Thinking for Designers on the foreground shelf",
+    "returnLabel": "Return Business Thinking for Designers to the foreground shelf",
+    "outline": "1368.4043259159914,654.105 1452.5340126780004,654.105 1452.0648433810045,761.63 1367.9351566189955,761.63"
+  },
+  {
+    "id": "room-book-art-of-ux",
+    "slug": "art-of-ux",
+    "record": {
+      "slug": "art-of-ux",
+      "title": "Art Of UX",
+      "author": "Tulasi Krishna Penumarthy",
+      "coverImage": "/covers/art-of-ux-placeholder.jpg",
+      "status": "Unread"
+    },
+    "shelf": "foreground",
+    "corners": [
+      [
+        1477.4897390023018,
+        649.095
+      ],
+      [
+        1569.9178861695666,
+        649.095
+      ],
+      [
+        1570.2140735836324,
+        762.23
+      ],
+      [
+        1477.7859264163676,
+        762.23
+      ]
+    ],
+    "colour": "#58666a",
+    "thickness": 0.051,
+    "shelfThickness": 0.051,
+    "bottom": 762.23,
+    "top": 649.095,
+    "left": 1477.4897390023018,
+    "width": 92.7243345813306,
+    "height": 113.135,
+    "center": 1524,
+    "label": "Art Of UX on the foreground shelf",
+    "returnLabel": "Return Art Of UX to the foreground shelf",
+    "outline": "1477.4897390023018,649.095 1569.9178861695666,649.095 1570.2140735836324,762.23 1477.7859264163676,762.23"
+  },
+  {
+    "id": "room-book-designing-design",
+    "slug": "designing-design",
+    "record": {
+      "slug": "designing-design",
+      "title": "Designing Design",
+      "author": "Kenya Hara",
+      "coverImage": "/covers/designing-design-placeholder.jpg",
+      "status": "Unread"
+    },
+    "shelf": "foreground",
+    "corners": [
+      [
+        1581.9199529140155,
+        655.14
+      ],
+      [
+        1674.452116753721,
+        655.14
+      ],
+      [
+        1674.2660819198527,
+        761.73
+      ],
+      [
+        1581.7339180801473,
+        761.73
+      ]
+    ],
+    "colour": "#a79482",
+    "thickness": 0.033,
+    "shelfThickness": 0.033,
+    "bottom": 761.73,
+    "top": 655.14,
+    "left": 1581.7339180801473,
+    "width": 92.71819867357362,
+    "height": 106.59,
+    "center": 1628,
+    "label": "Designing Design on the foreground shelf",
+    "returnLabel": "Return Designing Design to the foreground shelf",
+    "outline": "1581.9199529140155,655.14 1674.452116753721,655.14 1674.2660819198527,761.73 1581.7339180801473,761.73"
+  }
+]
