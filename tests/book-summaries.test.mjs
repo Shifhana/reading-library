@@ -4,14 +4,18 @@ import { books } from '../src/data/books.ts'
 import { readNote, saveNoteDraft } from '../src/components/noteStorage.ts'
 import { displayBooks } from '../src/components/shelfBooks.ts'
 
-test('every remaining book has a distinct paragraph summary within the requested length', () => {
+test('every identified book has concise summary paragraphs and specific designer takeaways', () => {
   assert.equal(books.length, 20)
   assert.ok(!books.some(book => book.slug === 'artiom-dashinsky-bundle'))
   assert.equal(new Set(books.map(book => book.summary)).size, books.length)
   for (const book of books) {
     const words = book.summary.trim().split(/\s+/).length
-    assert.ok(words >= 80 && words <= 150, `${book.slug}: ${words} words`)
-    assert.ok(!book.summary.includes('\n'), `${book.slug} should be one paragraph`)
+    assert.ok(words >= 120 && words <= 180, `${book.slug}: ${words} summary words`)
+    assert.equal(book.summary.split('\n\n').length, 2)
+    const takeaways = book.takeaways.trim().split(/\s+/).length
+    assert.ok(takeaways >= 45 && takeaways <= 85, `${book.slug}: ${takeaways} takeaway words`)
+    assert.ok(book.author.length > 0)
+    assert.match(book.takeaways, /\bI\b/)
     assert.ok(displayBooks.some(display => display.slug === book.slug))
   }
 })

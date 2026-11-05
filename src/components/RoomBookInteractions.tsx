@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { createPortal } from 'react-dom'
 import { PhysicalBook } from './PhysicalBook'
 import { readingLayout } from './readingLayout'
-import { BookNotes } from './BookNotes'
+import { BookReadingPages } from './BookReadingPages'
 import { BookPageEdge } from './BookPageEdge'
 import { afterBookMotion, closeBookPhase, coverPauseMs, type BookPhase } from './bookInteraction'
 
@@ -21,9 +21,9 @@ export function RoomBookInteractions() {
   const closeRef = useRef<HTMLButtonElement>(null)
   const sourceRef = useRef<HTMLButtonElement | null>(null)
   const [selection, setSelection] = useState<Selection | null>(null)
-  const [reflectionSaveError, setReflectionSaveError] = useState(false)
   const [notesSaveError, setNotesSaveError] = useState(false)
-  const editingNote = reflectionSaveError || notesSaveError
+  const editingNote = notesSaveError
+  const [pageCount, setPageCount] = useState(2)
   const [coverLift, setCoverLift] = useState(false)
   const [turnPreview, setTurnPreview] = useState({ direction: 1, progress: 0 })
   const [viewport, setViewport] = useState({ width: window.innerWidth, height: window.innerHeight, matrix: new DOMMatrix() })
@@ -47,7 +47,7 @@ export function RoomBookInteractions() {
     if (phase === 'open' && !selection?.turn && document.activeElement === document.body) closeRef.current?.focus({ preventScroll: true })
   }, [phase, selection?.spread, selection?.turn])
   const reading = readingLayout(viewport.width, viewport.height)
-  const spreadCount = reading.singlePage ? 2 : 1
+  const spreadCount = Math.ceil(pageCount / (reading.singlePage ? 1 : 2))
   if (selection && selection.spread >= spreadCount) setSelection({ ...selection, spread: spreadCount - 1 })
   useEffect(() => {
     if (selectedId) closeRef.current?.focus({ preventScroll: true })
@@ -122,7 +122,7 @@ export function RoomBookInteractions() {
                   const p = new DOMPoint(x,y).matrixTransform(matrix)
                   return [p.x,p.y] as const
                 })
-                setReflectionSaveError(false); setNotesSaveError(false); setCoverLift(false); setTurnPreview({ direction: 1, progress: 0 })
+                setPageCount(2); setNotesSaveError(false); setCoverLift(false); setTurnPreview({ direction: 1, progress: 0 })
                 setSelection(current => current ?? { book, startCorners, phase: 'lifting', spread: 0, turn: 0, closeRequested: false })
               }} />
           </foreignObject>
@@ -138,11 +138,11 @@ export function RoomBookInteractions() {
     {selection && createPortal(<div className="focused-book-layer" data-phase={phase} role="dialog" aria-modal="true" aria-label={selection.book.label}
       onKeyDown={event => {
         if (event.key === 'Escape') { event.preventDefault(); returnToShelf() }
-        if (!(event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) && phase === 'open' && (event.key === 'ArrowRight' || event.key === 'ArrowLeft')) {
+        if (!(event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement || (event.target instanceof HTMLElement && event.target.isContentEditable)) && phase === 'open' && (event.key === 'ArrowRight' || event.key === 'ArrowLeft')) {
           event.preventDefault(); if (!event.repeat) turnPage(event.key === 'ArrowRight' ? 1 : -1)
         }
         if (event.key === 'Tab') {
-          const buttons = [...event.currentTarget.querySelectorAll<HTMLElement>('button:not(:disabled), input:not(:disabled), textarea:not(:disabled)')].filter(element => element.getClientRects().length > 0)
+          const buttons = [...event.currentTarget.querySelectorAll<HTMLElement>('button:not(:disabled), input:not(:disabled), textarea:not(:disabled), [contenteditable="plaintext-only"]')].filter(element => element.getClientRects().length > 0)
           const index = buttons.indexOf(document.activeElement as HTMLButtonElement)
           event.preventDefault()
           buttons[(index + (event.shiftKey ? -1 : 1) + buttons.length) % buttons.length]?.focus()
@@ -167,18 +167,10 @@ export function RoomBookInteractions() {
         onClick={() => setSelection(current => current?.phase === 'held' ? { ...current, phase: 'opening' } : current)} />}
       {phase === 'open' && <div className="reading-pages" data-single-page={reading.singlePage || undefined}
         data-turning={Boolean(selection.turn) || undefined}
-        style={{ left: reading.left, top: reading.top, width: reading.width, height: reading.height }}>
-        <section className="reading-page reading-writing-page" aria-label="Left book page" data-hidden={reading.singlePage && selection.spread % 2 === 1 || undefined}>
-          <header className="reading-running-head">{selection.book.record.title}</header>
-          <div className="reading-page-content">
-            <BookNotes key={`${selection.book.slug}-reflection`} bookId={selection.book.slug} field="whatIRemember" initialBody={selection.book.record.whatIRemember} focusOnOpen={!selection.turn && (!reading.singlePage || selection.spread === 0)} onSaveError={setReflectionSaveError} />
-          </div>
-        </section>
-        <section className="reading-page reading-page-right reading-writing-page" aria-label="Right book page" data-hidden={reading.singlePage && selection.spread % 2 === 0 || undefined}>
-          <div className="reading-page-content">
-            <BookNotes key={`${selection.book.slug}-summary`} bookId={selection.book.slug} field="summary" initialBody={selection.book.record.summary} focusOnOpen={reading.singlePage && selection.spread === 1 && !selection.turn} onSaveError={setNotesSaveError} />
-          </div>
-        </section>
+        style={{ left: reading.left, top: reading.top, width: reading.width, height: reading.height, '--reading-page-width': `${reading.pageWidth}px` } as CSSProperties}>
+        <BookReadingPages key={selection.book.slug} book={selection.book.record} spread={selection.spread}
+          singlePage={reading.singlePage} width={reading.pageWidth} height={reading.height}
+          onPageCount={setPageCount} onSaveError={setNotesSaveError} />
         <BookPageEdge direction={-1} width={reading.pageWidth} label={selection.spread === 0 ? 'Close book' : 'Previous page'}
           disabled={editingNote || Boolean(selection.turn)} onPreview={previewTurn}
           onTurn={selection.spread === 0 ? returnToShelf : () => turnPage(-1)} />

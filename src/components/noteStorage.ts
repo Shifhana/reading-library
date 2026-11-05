@@ -1,10 +1,10 @@
 export type BookNote = { bookId: string; heading: string; body: string; createdAt: string; updatedAt: string }
 type NoteStorage = Pick<Storage, 'getItem' | 'setItem'>
-export type ContentField = 'myNotes' | 'whatIRemember' | 'summary'
+export type ContentField = 'myNotes' | 'whatIRemember' | 'summary' | 'takeaways'
 // Keep the existing notes key so earlier saved notes need no migration.
-const key = (bookId: string, field: ContentField) => `reading-garden:${field === 'myNotes' ? 'note' : field === 'summary' ? 'summary' : 'reflection'}:v1:${encodeURIComponent(bookId)}`
+const key = (bookId: string, field: ContentField) => `reading-garden:${field === 'myNotes' ? 'note' : field === 'whatIRemember' ? 'reflection' : field}:v1:${encodeURIComponent(bookId)}`
 
-export function readNote(storage: NoteStorage, bookId: string, field: ContentField = 'myNotes'): BookNote | null | undefined {
+export function readNote(storage: Pick<Storage, 'getItem'>, bookId: string, field: ContentField = 'myNotes'): BookNote | null | undefined {
   const raw = storage.getItem(key(bookId, field))
   if (raw === null) return undefined
   const note: unknown = JSON.parse(raw)

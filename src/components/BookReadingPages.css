@@ -1,0 +1,27 @@
+/* Measured paper content shares the same typography and margins as its hidden probe. */
+.reading-pages .reading-flow-page {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(24px, 4vh, 48px) calc(var(--reading-page-width) * .12) clamp(48px, 8vh, 72px);
+}
+.reading-flow {
+  flex: 1;
+  min-height: 0;
+  margin-top: 22px;
+  overflow: hidden;
+  font: 16px/1.65 var(--font-serif);
+}
+.reading-flow-section + .reading-flow-section { margin-top: 20px; }
+.reading-pages .reading-flow-section h2 { font: 400 24px/1.25 var(--font-serif); margin: 0 0 12px; }
+.reading-flow-text { white-space: pre-wrap; overflow-wrap: anywhere; min-height: 1.65em; outline: none; }
+.reading-flow-text:focus-visible { outline: 1px solid #b7a991; outline-offset: 4px; }
+/* Only active writing may scroll; ordinary reading always flows through physical pages. */
+.reading-flow:focus-within { overflow-y: auto; scrollbar-width: thin; }
+.reading-pages .reading-flow-measure {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 50%;
+  visibility: hidden;
+  pointer-events: none;
+}
+.reading-pages[data-single-page] .reading-flow-measure { width: 100%; }
